@@ -14,6 +14,26 @@
       </tags>
   </entry>
   <entry>
+    <title>golang 统计代码行数</title>
+    <url>/2022/08/31/2022-08-31-golang-%E7%BB%9F%E8%AE%A1%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="golang-统计代码行数"><a href="#golang-统计代码行数" class="headerlink" title="golang 统计代码行数"></a>golang 统计代码行数</h1><h2 id="使用gocloc工具进行统计"><a href="#使用gocloc工具进行统计" class="headerlink" title="使用gocloc工具进行统计"></a>使用gocloc工具进行统计</h2><p>获取gocloc工具：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go get -u github.com/hhatto/gocloc/cmd/gocloc</span><br></pre></td></tr></table></figure>
+<p>使用gocloc命令 gocloc[目录路径或文件路径] 进行统计</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gocloc .</span><br></pre></td></tr></table></figure>
+
+<p><code>gocloc</code>会按类别统计路径下有多少文件，文件中的空行数，注释行数以及实际代码行数。如果目录下某类文件不需要统计，可以使用参数<code>--exclue-ext=[文件后缀]</code></p>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gocloc --exclue-ext=txt .</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MongoDB 备份(mongodump)与恢复(mongorestore)</title>
     <url>/2022/02/16/MongoDB%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
     <content><![CDATA[<h1 id="MongoDB-备份-mongodump-与恢复-mongorestore"><a href="#MongoDB-备份-mongodump-与恢复-mongorestore" class="headerlink" title="MongoDB 备份(mongodump)与恢复(mongorestore)"></a>MongoDB 备份(mongodump)与恢复(mongorestore)</h1><hr>
@@ -99,6 +119,19 @@
       </tags>
   </entry>
   <entry>
+    <title>docker-compose 执行模板文件构建镜像</title>
+    <url>/2022/02/15/docker-compose%E6%89%A7%E8%A1%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>执行模板文件构建镜像</p>
+<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">docker-compose -f docker-compose.build.yml build --no-cache</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker-compose</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>channel的死锁和panic总结</title>
     <url>/2022/05/07/channel%E7%9A%84%E6%AD%BB%E9%94%81%E5%92%8Cpanic%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="channel的死锁和panic总结"><a href="#channel的死锁和panic总结" class="headerlink" title="channel的死锁和panic总结"></a>channel的死锁和panic总结</h1><h2 id="1-channel的容量为0时"><a href="#1-channel的容量为0时" class="headerlink" title="1.channel的容量为0时"></a>1.channel的容量为0时</h2><h3 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">0</span>)</span><br><span class="line">     <span class="comment">//一直接收不到消息发生阻塞，死锁</span></span><br><span class="line">	fmt.Println(&lt;-c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -130,19 +163,6 @@
       </categories>
       <tags>
         <tag>golang</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker-compose 执行模板文件构建镜像</title>
-    <url>/2022/02/15/docker-compose%E6%89%A7%E8%A1%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>执行模板文件构建镜像</p>
-<figure class="highlight docker"><table><tr><td class="code"><pre><span class="line">docker-compose -f docker-compose.build.yml build --no-cache</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker-compose</tag>
       </tags>
   </entry>
   <entry>
@@ -283,6 +303,22 @@
       </tags>
   </entry>
   <entry>
+    <title>git 设置ssh 代理</title>
+    <url>/2022/02/16/git%20%E8%AE%BE%E7%BD%AEssh%20%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>配置文件，如果不存在则自行创建一个</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~\.ssh\config</span><br></pre></td></tr></table></figure>
+
+<p>增加内容,端口号设置socks端口号</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  User git</span><br><span class="line">  Port 22</span><br><span class="line">  Hostname github.com</span><br><span class="line">  <span class="comment"># 注意修改路径为你的路径</span></span><br><span class="line">  IdentityFile <span class="string">&quot;~\.ssh\id_rsa&quot;</span></span><br><span class="line">  TCPKeepAlive <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">Host ssh.github.com</span><br><span class="line">  User git</span><br><span class="line">  Port 443</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  <span class="comment"># 注意修改路径为你的路径</span></span><br><span class="line">  IdentityFile <span class="string">&quot;~\.ssh\id_rsa&quot;</span></span><br><span class="line">  TCPKeepAlive <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>代理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git 查看提交历史记录</title>
     <url>/2022/02/16/git%20%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h1 id="查看历史"><a href="#查看历史" class="headerlink" title="查看历史"></a>查看历史</h1><h2 id="查看所有提交历史记录"><a href="#查看所有提交历史记录" class="headerlink" title="查看所有提交历史记录"></a>查看所有提交历史记录</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
@@ -298,22 +334,6 @@
         <tag>git</tag>
         <tag>history</tag>
         <tag>log</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 设置ssh 代理</title>
-    <url>/2022/02/16/git%20%E8%AE%BE%E7%BD%AEssh%20%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>配置文件，如果不存在则自行创建一个</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~\.ssh\config</span><br></pre></td></tr></table></figure>
-
-<p>增加内容,端口号设置socks端口号</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</span><br><span class="line"></span><br><span class="line">Host github.com</span><br><span class="line">  User git</span><br><span class="line">  Port 22</span><br><span class="line">  Hostname github.com</span><br><span class="line">  <span class="comment"># 注意修改路径为你的路径</span></span><br><span class="line">  IdentityFile <span class="string">&quot;~\.ssh\id_rsa&quot;</span></span><br><span class="line">  TCPKeepAlive <span class="built_in">yes</span></span><br><span class="line"></span><br><span class="line">Host ssh.github.com</span><br><span class="line">  User git</span><br><span class="line">  Port 443</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  <span class="comment"># 注意修改路径为你的路径</span></span><br><span class="line">  IdentityFile <span class="string">&quot;~\.ssh\id_rsa&quot;</span></span><br><span class="line">  TCPKeepAlive <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>代理</tag>
       </tags>
   </entry>
   <entry>
@@ -350,6 +370,20 @@
       </tags>
   </entry>
   <entry>
+    <title>golang AES算法 CBC加密</title>
+    <url>/2022/04/18/golang%20AES%E7%AE%97%E6%B3%95%20CBC%E5%8A%A0%E5%AF%86/</url>
+    <content><![CDATA[<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> aes</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;crypto/aes&quot;</span></span><br><span class="line">	<span class="string">&quot;crypto/cipher&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/base64&quot;</span></span><br><span class="line">	<span class="string">&quot;errors&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//pkcs7Padding 填充</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs7Padding</span><span class="params">(data []<span class="type">byte</span>, blockSize <span class="type">int</span>)</span></span> []<span class="type">byte</span> &#123;</span><br><span class="line">	<span class="comment">//判断缺少几位长度。最少1，最多 blockSize</span></span><br><span class="line">	padding := blockSize - <span class="built_in">len</span>(data)%blockSize</span><br><span class="line">	<span class="comment">//补足位数。把切片[]byte&#123;byte(padding)&#125;复制padding个</span></span><br><span class="line">	padText := bytes.Repeat([]<span class="type">byte</span>&#123;<span class="type">byte</span>(padding)&#125;, padding)</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">append</span>(data, padText...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//pkcs7UnPadding 填充的反向操作</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs7UnPadding</span><span class="params">(data []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(data)</span><br><span class="line">	<span class="keyword">if</span> length == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, errors.New(<span class="string">&quot;加密字符串错误！&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//获取填充的个数</span></span><br><span class="line">	unPadding := <span class="type">int</span>(data[length<span class="number">-1</span>])</span><br><span class="line">	<span class="keyword">return</span> data[:(length - unPadding)], <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//AesEncrypt 加密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncrypt</span><span class="params">(data []<span class="type">byte</span>, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">//创建加密实例</span></span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//判断加密快的大小</span></span><br><span class="line">	blockSize := block.BlockSize()</span><br><span class="line">	<span class="comment">//填充</span></span><br><span class="line">	encryptBytes := pkcs7Padding(data, blockSize)</span><br><span class="line">	<span class="comment">//初始化加密数据接收切片</span></span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(encryptBytes))</span><br><span class="line">	<span class="comment">//使用cbc加密模式</span></span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, key[:blockSize])</span><br><span class="line">	<span class="comment">//执行加密</span></span><br><span class="line">	blockMode.CryptBlocks(crypted, encryptBytes)</span><br><span class="line">	<span class="keyword">return</span> crypted, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//AesDecrypt 解密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesDecrypt</span><span class="params">(data []<span class="type">byte</span>, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">//创建实例</span></span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//获取块的大小</span></span><br><span class="line">	blockSize := block.BlockSize()</span><br><span class="line">	<span class="comment">//使用cbc</span></span><br><span class="line">	blockMode := cipher.NewCBCDecrypter(block, key[:blockSize])</span><br><span class="line">	<span class="comment">//初始化解密数据接收切片</span></span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(data))</span><br><span class="line">	<span class="comment">//执行解密</span></span><br><span class="line">	blockMode.CryptBlocks(crypted, data)</span><br><span class="line">	<span class="comment">//去除填充</span></span><br><span class="line">	crypted, err = pkcs7UnPadding(crypted)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> crypted, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//EncryptByAes Aes加密 后 base64 再加</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">EncryptByAes</span><span class="params">(data, key []<span class="type">byte</span>)</span></span> (<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	res, err := AesEncrypt(data, key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> base64.StdEncoding.EncodeToString(res), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//DecryptByAes Aes 解密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DecryptByAes</span><span class="params">(data, key <span class="type">string</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	dataByte, err := base64.StdEncoding.DecodeString(data)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> AesDecrypt(dataByte, []<span class="type">byte</span>(key))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+        <tag>aes</tag>
+        <tag>cbc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>go mod tidy 报错timeout</title>
     <url>/2022/05/05/go%20mod%20tidy%20%E6%8A%A5%E9%94%99timeout/</url>
     <content><![CDATA[<h1 id="go-mod-tidy-报错timeout"><a href="#go-mod-tidy-报错timeout" class="headerlink" title="go mod tidy 报错timeout"></a>go mod tidy 报错timeout</h1><p>当我们设置了GOPROXY代理之后</p>
@@ -371,20 +405,6 @@
       </tags>
   </entry>
   <entry>
-    <title>golang AES算法 CBC加密</title>
-    <url>/2022/04/18/golang%20AES%E7%AE%97%E6%B3%95%20CBC%E5%8A%A0%E5%AF%86/</url>
-    <content><![CDATA[<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> aes</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;crypto/aes&quot;</span></span><br><span class="line">	<span class="string">&quot;crypto/cipher&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/base64&quot;</span></span><br><span class="line">	<span class="string">&quot;errors&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//pkcs7Padding 填充</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs7Padding</span><span class="params">(data []<span class="type">byte</span>, blockSize <span class="type">int</span>)</span></span> []<span class="type">byte</span> &#123;</span><br><span class="line">	<span class="comment">//判断缺少几位长度。最少1，最多 blockSize</span></span><br><span class="line">	padding := blockSize - <span class="built_in">len</span>(data)%blockSize</span><br><span class="line">	<span class="comment">//补足位数。把切片[]byte&#123;byte(padding)&#125;复制padding个</span></span><br><span class="line">	padText := bytes.Repeat([]<span class="type">byte</span>&#123;<span class="type">byte</span>(padding)&#125;, padding)</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">append</span>(data, padText...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//pkcs7UnPadding 填充的反向操作</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pkcs7UnPadding</span><span class="params">(data []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(data)</span><br><span class="line">	<span class="keyword">if</span> length == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, errors.New(<span class="string">&quot;加密字符串错误！&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//获取填充的个数</span></span><br><span class="line">	unPadding := <span class="type">int</span>(data[length<span class="number">-1</span>])</span><br><span class="line">	<span class="keyword">return</span> data[:(length - unPadding)], <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//AesEncrypt 加密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesEncrypt</span><span class="params">(data []<span class="type">byte</span>, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">//创建加密实例</span></span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//判断加密快的大小</span></span><br><span class="line">	blockSize := block.BlockSize()</span><br><span class="line">	<span class="comment">//填充</span></span><br><span class="line">	encryptBytes := pkcs7Padding(data, blockSize)</span><br><span class="line">	<span class="comment">//初始化加密数据接收切片</span></span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(encryptBytes))</span><br><span class="line">	<span class="comment">//使用cbc加密模式</span></span><br><span class="line">	blockMode := cipher.NewCBCEncrypter(block, key[:blockSize])</span><br><span class="line">	<span class="comment">//执行加密</span></span><br><span class="line">	blockMode.CryptBlocks(crypted, encryptBytes)</span><br><span class="line">	<span class="keyword">return</span> crypted, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//AesDecrypt 解密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AesDecrypt</span><span class="params">(data []<span class="type">byte</span>, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">//创建实例</span></span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//获取块的大小</span></span><br><span class="line">	blockSize := block.BlockSize()</span><br><span class="line">	<span class="comment">//使用cbc</span></span><br><span class="line">	blockMode := cipher.NewCBCDecrypter(block, key[:blockSize])</span><br><span class="line">	<span class="comment">//初始化解密数据接收切片</span></span><br><span class="line">	crypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(data))</span><br><span class="line">	<span class="comment">//执行解密</span></span><br><span class="line">	blockMode.CryptBlocks(crypted, data)</span><br><span class="line">	<span class="comment">//去除填充</span></span><br><span class="line">	crypted, err = pkcs7UnPadding(crypted)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> crypted, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//EncryptByAes Aes加密 后 base64 再加</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">EncryptByAes</span><span class="params">(data, key []<span class="type">byte</span>)</span></span> (<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	res, err := AesEncrypt(data, key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> base64.StdEncoding.EncodeToString(res), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//DecryptByAes Aes 解密</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DecryptByAes</span><span class="params">(data, key <span class="type">string</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	dataByte, err := base64.StdEncoding.DecodeString(data)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> AesDecrypt(dataByte, []<span class="type">byte</span>(key))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>golang</category>
-      </categories>
-      <tags>
-        <tag>golang</tag>
-        <tag>aes</tag>
-        <tag>cbc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>golang AES算法 ECB模式加密</title>
     <url>/2022/04/18/golang%20AES%E7%AE%97%E6%B3%95%20ECB%E6%A8%A1%E5%BC%8F%E5%8A%A0%E5%AF%86/</url>
     <content><![CDATA[<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> aes</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;crypto/aes&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">EcbDecrypt</span><span class="params">(data, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	decrypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(data))</span><br><span class="line">	size := block.BlockSize()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> bs, be := <span class="number">0</span>, size; bs &lt; <span class="built_in">len</span>(data); bs, be = bs+size, be+size &#123;</span><br><span class="line">		block.Decrypt(decrypted[bs:be], data[bs:be])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> PKCS5UnPadding(decrypted), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">EcbEncrypt</span><span class="params">(data, key []<span class="type">byte</span>)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	block, err := aes.NewCipher(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	data = PKCS5Padding(data, block.BlockSize())</span><br><span class="line">	decrypted := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="built_in">len</span>(data))</span><br><span class="line">	size := block.BlockSize()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> bs, be := <span class="number">0</span>, size; bs &lt; <span class="built_in">len</span>(data); bs, be = bs+size, be+size &#123;</span><br><span class="line">		block.Encrypt(decrypted[bs:be], data[bs:be])</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> decrypted, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PKCS5Padding</span><span class="params">(ciphertext []<span class="type">byte</span>, blockSize <span class="type">int</span>)</span></span> []<span class="type">byte</span> &#123;</span><br><span class="line">	padding := blockSize - <span class="built_in">len</span>(ciphertext)%blockSize</span><br><span class="line">	padtext := bytes.Repeat([]<span class="type">byte</span>&#123;<span class="type">byte</span>(padding)&#125;, padding)</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">append</span>(ciphertext, padtext...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PKCS5UnPadding</span><span class="params">(origData []<span class="type">byte</span>)</span></span> []<span class="type">byte</span> &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(origData)</span><br><span class="line">	<span class="comment">// 去掉最后一个字节 unpadding 次</span></span><br><span class="line">	unpadding := <span class="type">int</span>(origData[length<span class="number">-1</span>])</span><br><span class="line">	<span class="keyword">return</span> origData[:(length - unpadding)]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -396,17 +416,6 @@
         <tag>golang</tag>
         <tag>aes</tag>
         <tag>ecb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>golang 获取系统相关信息</title>
-    <url>/2022/03/01/golang%20%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF/</url>
-    <content><![CDATA[<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">    <span class="string">&quot;runtime&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`系统类型：`</span>, runtime.GOOS)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`系统架构：`</span>, runtime.GOARCH)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`CPU 核数：`</span>, runtime.GOMAXPROCS(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">    name, err := os.Hostname()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`电脑名称：`</span>, name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>golang</category>
-      </categories>
-      <tags>
-        <tag>golang</tag>
       </tags>
   </entry>
   <entry>
@@ -436,6 +445,17 @@
       <tags>
         <tag>golang</tag>
         <tag>pprof</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>golang 获取系统相关信息</title>
+    <url>/2022/03/01/golang%20%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">    <span class="string">&quot;runtime&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`系统类型：`</span>, runtime.GOOS)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`系统架构：`</span>, runtime.GOARCH)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`CPU 核数：`</span>, runtime.GOMAXPROCS(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">    name, err := os.Hostname()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">`电脑名称：`</span>, name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
       </tags>
   </entry>
   <entry>
@@ -500,6 +520,21 @@
     <title>golang 用两个栈实现队列</title>
     <url>/2022/03/15/golang%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/</url>
     <content><![CDATA[<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;container/list&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := Constructor()</span><br><span class="line">	c.AppendTail(<span class="number">3</span>)</span><br><span class="line">	e := c.DeleteHead()</span><br><span class="line">	fmt.Println(e)</span><br><span class="line">	e = c.DeleteHead()</span><br><span class="line">	fmt.Println(e)</span><br><span class="line">	e = c.DeleteHead()</span><br><span class="line">	fmt.Println(e)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CQueue <span class="keyword">struct</span> &#123;</span><br><span class="line">	stack1, stack2 *list.List</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Constructor</span><span class="params">()</span></span> CQueue &#123;</span><br><span class="line">	<span class="keyword">return</span> CQueue&#123;</span><br><span class="line">		stack1: list.New(),</span><br><span class="line">		stack2: list.New(),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *CQueue)</span></span> AppendTail(value <span class="type">int</span>) &#123;</span><br><span class="line">	this.stack1.PushBack(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *CQueue)</span></span> DeleteHead() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> this.stack2.Len() == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> this.stack1.Len() &gt; <span class="number">0</span> &#123;</span><br><span class="line">			this.stack2.PushBack(this.stack1.Remove(this.stack1.Back()))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> this.stack2.Len() != <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> this.stack2.Remove(this.stack2.Back()).(<span class="type">int</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Your CQueue object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment">* obj := Constructor();</span></span><br><span class="line"><span class="comment">* obj.AppendTail(value);</span></span><br><span class="line"><span class="comment">* param_2 := obj.DeleteHead();</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>golang私有仓库配置</title>
+    <url>/2022/08/23/golang%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>golang设置</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> env -w GOPRIVATE=<span class="string">&quot;gitlab.xxx.com/xxxx/*&quot;</span></span><br></pre></td></tr></table></figure>
+<p>git设置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global url.<span class="string">&quot;git@gitlab.xxxx.com:&quot;</span>.insteadOf <span class="string">&quot;http://gitlab.xxxx.com/&quot;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>golang</category>
@@ -575,27 +610,6 @@
       </categories>
       <tags>
         <tag>golang</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux 命令行配置代理</title>
-    <url>/2022/02/16/linux%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<h1 id="命令行配置代理"><a href="#命令行配置代理" class="headerlink" title="命令行配置代理"></a>命令行配置代理</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://127.0.0.1:1087</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="variable">$http_proxy</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config-json"><a href="#此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config-json" class="headerlink" title="此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config.json"></a>此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config.json</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;inbounds&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;listen&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;protocol&quot;</span><span class="punctuation">:</span> <span class="string">&quot;socks&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;udp&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;auth&quot;</span><span class="punctuation">:</span> <span class="string">&quot;noauth&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1080&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;listen&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;protocol&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span> <span class="number">360</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1087&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>检查命令行配置是否完成</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -i www.google.com</span><br></pre></td></tr></table></figure>
-
-<p>收到200响应表示成功</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>代理</tag>
-        <tag>linux</tag>
-        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -681,6 +695,27 @@
         <tag>备份</tag>
         <tag>恢复</tag>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux 命令行配置代理</title>
+    <url>/2022/02/16/linux%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="命令行配置代理"><a href="#命令行配置代理" class="headerlink" title="命令行配置代理"></a>命令行配置代理</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://127.0.0.1:1087</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="variable">$http_proxy</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config-json"><a href="#此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config-json" class="headerlink" title="此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config.json"></a>此处的IP和端口需要根据具体你代理的实际信息填写，可查看VPN客户端的config.json</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;inbounds&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;listen&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;protocol&quot;</span><span class="punctuation">:</span> <span class="string">&quot;socks&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;udp&quot;</span><span class="punctuation">:</span> <span class="keyword">false</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;auth&quot;</span><span class="punctuation">:</span> <span class="string">&quot;noauth&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1080&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;listen&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;protocol&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http&quot;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span> <span class="number">360</span></span><br><span class="line"> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1087&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>检查命令行配置是否完成</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -i www.google.com</span><br></pre></td></tr></table></figure>
+
+<p>收到200响应表示成功</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>代理</tag>
+        <tag>linux</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -957,21 +992,6 @@
 <p>在项目下执行命令</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gocloc  ./</span><br></pre></td></tr></table></figure>
 <p><img src="/upload/2022/03/image-8779d8ceda504a4e96579fa4fcb26844.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>golang</category>
-      </categories>
-      <tags>
-        <tag>golang</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>golang私有仓库配置</title>
-    <url>/2022/08/23/golang%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>golang设置</p>
-<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> env -w GOPRIVATE=<span class="string">&quot;gitlab.xxx.com/xxxx/*&quot;</span></span><br></pre></td></tr></table></figure>
-<p>git设置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global url.<span class="string">&quot;git@gitlab.xxxx.com:&quot;</span>.insteadOf <span class="string">&quot;http://gitlab.xxxx.com/&quot;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>golang</category>
