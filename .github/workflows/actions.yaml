@@ -20,8 +20,15 @@ jobs:
           echo 'PATH="$PATH:./node_modules/.bin"' >> ~/.profile
           npm install hexo-deployer-git -save
           npm install
-      - name: pull git repo
+      - name: ssh to git repo
+         env:
+          ACTION_DEPLOY_KEY: ${{secrets.Hexo_Deploy_Key}}
         run: |
+          mkdir -p ~/.ssh/
+          echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/know_hosts
           git config --global user.name CarrotVegeta
           git config --global user.email 1305115562@qq.com
       - name: hexo clean and hexo g and hexo d
