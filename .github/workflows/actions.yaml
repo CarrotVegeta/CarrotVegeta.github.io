@@ -20,6 +20,7 @@ jobs:
           git config --global user.name CarrotVegeta
           git config --global user.email 1305115562@qq.com
           #- name: hexo clean and hexo g and hexo d
+      - run: hexo help
       - run: hexo clean
       - run: hexo g
       - run: hexo d
