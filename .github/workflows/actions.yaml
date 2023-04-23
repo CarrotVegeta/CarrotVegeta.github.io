@@ -5,6 +5,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout codes
+      - uses: actions/checkout@backup
       - name: Setup node.js
         uses: actions/setup-node@v2
         with:
