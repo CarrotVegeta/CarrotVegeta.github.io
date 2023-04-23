@@ -21,7 +21,7 @@ jobs:
           npm install hexo-deployer-git -save
           npm install
       - name: ssh to git repo
-         env:
+        env:
           ACTION_DEPLOY_KEY: ${{secrets.Hexo_Deploy_Key}}
         run: |
           mkdir -p ~/.ssh/
