@@ -18,14 +18,14 @@ jobs:
         run: |
           npm install -g hexo-cli
           echo 'PATH="$PATH:./node_modules/.bin"' >> ~/.profile
+          npm install hexo-deployer-git -save
           npm install
       - name: pull git repo
         run: |
           git config --global user.name CarrotVegeta
           git config --global user.email 1305115562@qq.com
-          #- name: hexo clean and hexo g and hexo d
-      - run: hexo help
-      - run: hexo clean
-      - run: hexo g
-      - run: hexo d
+      - name: hexo clean and hexo g and hexo d
+        run: hexo clean
+        run: hexo g
+        run: hexo d
       - run: echo "🍏 This job's status is ${{ job.status }}."
