@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout codes
-        uses: actions/backup
+        uses: actions/checkout@v1
+        with:
+          ref: backup
       - name: Setup node.js
         uses: actions/setup-node@v2
         with:
