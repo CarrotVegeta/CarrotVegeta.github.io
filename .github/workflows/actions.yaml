@@ -5,7 +5,23 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: hexo clean
-      - run: hexo g
-      - run: hexo d
+      - name: Setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install Dependency
+        run: |
+          npm install -g hexo-cli
+          echo 'PATH="$PATH:./node_modules/.bin"' >> ~/.profile
+
+      - name: pull git repo
+        run: |
+          git config --global user.name CarrotVegeta
+          git config --global user.email 1305115562@qq.com
+      - name: hexo clean and hexo g and hexo d
+        run: |
+          hexo clean
+          hexo g
+          hexo d
       - run: echo "🍏 This job's status is ${{ job.status }}."
