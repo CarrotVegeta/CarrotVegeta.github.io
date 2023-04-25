@@ -1,18 +1,17 @@
 ---
+abbrlink: ''
+categories:
+- golang
+date: '2023-04-11 23:44:01'
+tags:
+- golang
 title: golang远程调试
-date: 2023-04-11 23:44:01.404
-updated: 2023-04-11 15:56:01.404
+updated: Tue, 25 Apr 2023 15:37:21 GMT
 url: /archives/golang-remote-debug
-categories: 
-- golang
-tags: 
-- golang
 ---
 # golang远程调试
 
 ## 第一步：安装go
-
-
 
 ```shell
 #下载go
@@ -68,12 +67,8 @@ dlv attach --headless --listen ":2345" --log --api-version 2  4977 ## 后面的�
  dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./main
 ```
 
-
-
-
 ## goland 远程调试
 
 打开goland配置 选择go remote 填写服务器地址和端口
 
-![](../pictures\1681230165886.jpg)
-
+![](http://img.carrotvegeta.icu/1681230165886.jpg)
