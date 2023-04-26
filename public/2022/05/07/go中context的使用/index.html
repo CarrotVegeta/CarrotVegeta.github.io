@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","width":300,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="go中context的使用版权声明：本文为CSDN博主「Word哥」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;finghting321&#x2F;article&#x2F;details&#x2F;106012673&#x2F;———————————————— 1. 为什么需要context在并发程序中，由于超时、取消操作或者一些异常情况，往往">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go 中context的使用">
+<meta property="og:url" content="http://example.com/2022/05/07/go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="胡萝卜贝吉塔">
+<meta property="og:description" content="go中context的使用版权声明：本文为CSDN博主「Word哥」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;finghting321&#x2F;article&#x2F;details&#x2F;106012673&#x2F;———————————————— 1. 为什么需要context在并发程序中，由于超时、取消操作或者一些异常情况，往往">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://rd7bcspti.hn-bkt.clouddn.com/02.png">
+<meta property="og:image" content="http://example.com/upload/2022/05/image-1651908425418.png">
+<meta property="og:image" content="http://example.com/upload/2022/05/image-1651908618179.png">
+<meta property="og:image" content="http://example.com/upload/2022/05/image-1651908781361.png">
+<meta property="og:image" content="http://example.com/upload/2022/05/image-1651908878817.png">
+<meta property="article:published_time" content="2022-05-07T07:28:52.002Z">
+<meta property="article:modified_time" content="2022-05-07T07:38:13.718Z">
+<meta property="article:author" content="CarrotVegeta">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://rd7bcspti.hn-bkt.clouddn.com/02.png">
+
+
+<link rel="canonical" href="http://example.com/2022/05/07/go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/07/go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8/","path":"2022/05/07/go中context的使用/","title":"go 中context的使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>go 中context的使用 | 胡萝卜贝吉塔</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">胡萝卜贝吉塔</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">不知道干啥的</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">go中context的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81context"><span class="nav-number">1.1.</span> <span class="nav-text">1. 为什么需要context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-context%E5%8C%85%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2. context包简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%E2%80%94%E7%AD%89%E5%BE%85%E7%BB%84"><span class="nav-number">1.3.</span> <span class="nav-text">3. 场景举例—等待组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%E2%80%94%E9%80%9A%E9%81%93-select"><span class="nav-number">1.4.</span> <span class="nav-text">4. 场景举例—通道+select</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%E2%80%94%E6%99%AE%E9%80%9Acontext"><span class="nav-number">1.5.</span> <span class="nav-text">5. 场景举例—普通context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%E2%80%94Context%E8%B6%85%E6%97%B6"><span class="nav-number">1.6.</span> <span class="nav-text">6. 场景举例—Context超时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B%E2%80%94Context%E4%BC%A0%E9%80%92%E5%85%83%E6%95%B0%E6%8D%AE"><span class="nav-number">1.7.</span> <span class="nav-text">7. 场景举例—Context传递元数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-context%E6%80%BB%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">8. context总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CarrotVegeta</p>
+  <div class="site-description" itemprop="description">本博客主要分享个人笔记</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=320 height=298 src="//music.163.com/outchain/player?type=0&id=7979147363&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/07/go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CarrotVegeta">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胡萝卜贝吉塔">
+      <meta itemprop="description" content="本博客主要分享个人笔记">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="go 中context的使用 | 胡萝卜贝吉塔">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          go 中context的使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-07 15:28:52 / 修改时间：15:38:13" itemprop="dateCreated datePublished" datetime="2022-05-07T15:28:52+08:00">2022-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="go中context的使用"><a href="#go中context的使用" class="headerlink" title="go中context的使用"></a>go中context的使用</h1><p>版权声明：本文为CSDN博主「Word哥」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/finghting321/article/details/106012673/">https://blog.csdn.net/finghting321/article/details/106012673/</a><br>————————————————</p>
+<h2 id="1-为什么需要context"><a href="#1-为什么需要context" class="headerlink" title="1. 为什么需要context"></a>1. 为什么需要context</h2><p>在并发程序中，由于超时、取消操作或者一些异常情况，往往需要进行抢占操作或者中断后续操作。</p>
+<p>举个例子：在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务，用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理该请求的 goroutine 都应该迅速中断退出，然后系统才能释放这些 goroutine 占用的资源。context深入理解可参考</p>
+<span id="more"></span>
+<p>context常用的使用场景：</p>
+<ol>
+<li>一个请求对应多个goroutine之间的数据交互</li>
+<li>超时控制</li>
+<li>上下文控制</li>
+</ol>
+<h2 id="2-context包简介"><a href="#2-context包简介" class="headerlink" title="2. context包简介"></a>2. context包简介</h2><p>context.Context接口：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> Context <span class="token keyword">interface</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 返回Context的超时时间（超时返回场景）</span>
+    <span class="token function">Deadline</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>deadline time<span class="token punctuation">.</span>Time<span class="token punctuation">,</span> ok <span class="token builtin">bool</span><span class="token punctuation">)</span>
+ 
+    <span class="token comment">// 在Context超时或取消时（即结束了）返回一个关闭的channel</span>
+    <span class="token comment">// 即如果当前Context超时或取消时，Done方法会返回一个channel，然后其他地方就可以通过判断Done方法是否有返回（channel），如果有则说明Context已结束</span>
+    <span class="token comment">// 故其可以作为广播通知其他相关方本Context已结束，请做相关处理。</span>
+    <span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;-</span><span class="token keyword">chan</span> <span class="token keyword">struct</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+ 
+    <span class="token comment">// 返回Context取消的原因</span>
+    <span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">error</span>
+    
+    <span class="token comment">// 返回Context相关数据</span>
+    <span class="token function">Value</span><span class="token punctuation">(</span>key <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>继承的Context，BackGound是所有Context的root，不能够被cancel。context包提供了三种context，分别是是普通context，超时context以及带值的context：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 普通context，通常这样调用： ctx, cancel := context.WithCancel(context.Background())</span>
+<span class="token keyword">func</span> <span class="token function">WithCancel</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">)</span> <span class="token punctuation">(</span>ctx Context<span class="token punctuation">,</span> cancel CancelFunc<span class="token punctuation">)</span>
+ 
+<span class="token comment">// 带超时的context，超时之后会自动close对象的Done，与调用CancelFunc的效果一样</span>
+<span class="token comment">// WithDeadline 明确地设置一个d指定的系统时钟时间，如果超过就触发超时</span>
+<span class="token comment">// WithTimeout 设置一个相对的超时时间，也就是deadline设为timeout加上当前的系统时间</span>
+<span class="token comment">// 因为两者事实上都依赖于系统时钟，所以可能存在微小的误差，所以官方不推荐把超时间隔设置得太小</span>
+<span class="token comment">// 通常这样调用：ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</span>
+<span class="token keyword">func</span> <span class="token function">WithDeadline</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">,</span> d time<span class="token punctuation">.</span>Time<span class="token punctuation">)</span> <span class="token punctuation">(</span>Context<span class="token punctuation">,</span> CancelFunc<span class="token punctuation">)</span>
+<span class="token keyword">func</span> <span class="token function">WithTimeout</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">,</span> timeout time<span class="token punctuation">.</span>Duration<span class="token punctuation">)</span> <span class="token punctuation">(</span>Context<span class="token punctuation">,</span> CancelFunc<span class="token punctuation">)</span>
+ 
+<span class="token comment">// 带有值的context，没有CancelFunc，所以它只用于值的多goroutine传递和共享</span>
+<span class="token comment">// 通常这样调用：ctx := context.WithValue(context.Background(), "key", myValue)</span>
+<span class="token keyword">func</span> <span class="token function">WithValue</span><span class="token punctuation">(</span>parent Context<span class="token punctuation">,</span> key<span class="token punctuation">,</span> val <span class="token keyword">interface</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> Context<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="3-场景举例—等待组"><a href="#3-场景举例—等待组" class="headerlink" title="3. 场景举例—等待组"></a>3. 场景举例—等待组</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+ 
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"sync"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token comment">//数据接收服务主协程同子协程同步变量</span>
+<span class="token keyword">var</span> wg sync<span class="token punctuation">.</span>WaitGroup
+ 
+<span class="token keyword">func</span> <span class="token function">run</span><span class="token punctuation">(</span>i <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"start 任务ID："</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    wg<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 每个goroutine运行完毕后就释放等待组的计数器</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    countThread <span class="token operator">:=</span> <span class="token number">2</span> <span class="token comment">//runtime.NumCPU()</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> countThread<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">go</span> <span class="token function">run</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    wg<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>countThread<span class="token punctuation">)</span> <span class="token comment">// 需要开启的goroutine等待组的计数器</span>
+ 
+    <span class="token comment">//等待所有的任务都释放</span>
+    wg<span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"任务全部结束,退出"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>运行结果：</strong> </p>
+<img align="left" src="http://rd7bcspti.hn-bkt.clouddn.com/02.png">  
+
+<p><strong>分析：</strong>  对于等待组控制多并发的情况，只有所有的goroutine都结束了才算结束，只要有一个goroutine没有结束， 那么就会一直等，这显然对资源的释放是缓慢的；<br><strong>优点：</strong> 使用等待组的并发控制模型，适用于好多个goroutine协同做一件事情，因为每个goroutine做的都是这件事情的一部分，只有当全部的goroutine都完成，这件事情才算完成；<br><strong>缺点：</strong> 需要主动的通知某一个 goroutine 结束。<br><strong>疑问：</strong> 如果开启一个后台 goroutine 一直做事情，现在不需要了，那么就需要通知这个goroutine 结束，否则它会一直跑。</p>
+<h2 id="4-场景举例—通道-select"><a href="#4-场景举例—通道-select" class="headerlink" title="4. 场景举例—通道+select"></a>4. 场景举例—通道+select</h2><p>针对等待组场景遗留的问题，解决办法：</p>
+<blockquote>
+<ol>
+<li>设置全局变量，在通知goroutine要停止时，为全局变量赋值，但是这样必须保证线程安全，不可避免的必须为全局变量加锁，显得有失便利；</li>
+<li>使用chan + select多路复用的方式，就会优雅许多；</li>
+</ol>
+</blockquote>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+ 
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token keyword">func</span> <span class="token function">run</span><span class="token punctuation">(</span>stop <span class="token keyword">chan</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token operator">&lt;-</span>stop<span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"任务1结束退出"</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"任务1正在运行中"</span><span class="token punctuation">)</span>
+            time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    stop <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">bool</span><span class="token punctuation">)</span>
+    <span class="token keyword">go</span> <span class="token function">run</span><span class="token punctuation">(</span>stop<span class="token punctuation">)</span> <span class="token comment">// 开启goroutine</span>
+ 
+    <span class="token comment">// 运行一段时间后停止</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"停止任务1。。。"</span><span class="token punctuation">)</span>
+    stop <span class="token operator">&lt;-</span> <span class="token boolean">true</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>运行结果：</strong><br><img src="/upload/2022/05/image-1651908425418.png" alt="image-1651908425418"><br><strong>优点：</strong> 优雅、简单<br><strong>不足：</strong> 如果有很多 goroutine 都需要控制结束，并且这些 goroutine 又开启其它更多的goroutine ？</p>
+<h2 id="5-场景举例—普通context"><a href="#5-场景举例—普通context" class="headerlink" title="5. 场景举例—普通context"></a>5. 场景举例—普通context</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+ 
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"context"</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token keyword">func</span> <span class="token function">run</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token operator">&lt;-</span>ctx<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"任务%v结束退出\n"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"任务%v正在运行中\n"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span>
+            time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//管理启动的协程</span>
+    ctx<span class="token punctuation">,</span> cancel <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">WithCancel</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment">// 开启多个goroutine，传入ctx</span>
+    <span class="token keyword">go</span> <span class="token function">run</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">go</span> <span class="token function">run</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token comment">// 运行一段时间后停止</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"停止任务1"</span><span class="token punctuation">)</span>
+    <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 使用context的cancel函数停止goroutine</span>
+    <span class="token comment">// 为了检测监控过是否停止，如果没有监控输出，表示停止</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>说明：</strong> context.Background() 返回一个空的 Context，这个空的 Context 一般用于整个 Context 树的根节点。然后使用 context.WithCancel(parent) 函数，创建一个可取消的子 Context，然后当作参数传给 goroutine 使用，这样就可以使用这个子 Context 跟踪这个 goroutine。</p>
+<p><strong>运行结果：</strong><br><img src="/upload/2022/05/image-1651908618179.png" alt="image-1651908618179"></p>
+<h2 id="6-场景举例—Context超时"><a href="#6-场景举例—Context超时" class="headerlink" title="6. 场景举例—Context超时"></a>6. 场景举例—Context超时</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+ 
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"context"</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"sync"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token keyword">func</span> <span class="token function">coroutine</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> duration time<span class="token punctuation">.</span>Duration<span class="token punctuation">,</span> id <span class="token builtin">int</span><span class="token punctuation">,</span> wg <span class="token operator">*</span>sync<span class="token punctuation">.</span>WaitGroup<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token operator">&lt;-</span>ctx<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"协程 %d 退出\n"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span>
+            wg<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token keyword">case</span> <span class="token operator">&lt;-</span>time<span class="token punctuation">.</span><span class="token function">After</span><span class="token punctuation">(</span>duration<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"消息来自协程 %d\n"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//使用WaitGroup等待所有的goroutine执行完毕，在收到&lt;-ctx.Done()的终止信号后使wg中需要等待的goroutine数量减一。</span>
+    <span class="token comment">// 因为context只负责取消goroutine，不负责等待goroutine运行，所以需要配合一点辅助手段</span>
+    <span class="token comment">//管理启动的协程</span>
+    wg <span class="token operator">:=</span> <span class="token operator">&amp;</span>sync<span class="token punctuation">.</span>WaitGroup<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    ctx<span class="token punctuation">,</span> cancel <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">WithTimeout</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
+    <span class="token keyword">defer</span> <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+        wg<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">go</span> <span class="token function">coroutine</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token number">1</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">,</span> i<span class="token punctuation">,</span> wg<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+    wg<span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>说明：</strong> 代码中使用WaitGroup等待所有的goroutine执行完毕，在收到&lt;-ctx.Done()的终止信号后使wg中需要等待的goroutine数量减一， 因为context只负责取消goroutine，不负责等待goroutine运行，需要配合一点辅助手段<br><strong>运行结果：</strong> </p>
+<p><img src="/upload/2022/05/image-1651908781361.png" alt="image-1651908781361"></p>
+<h2 id="7-场景举例—Context传递元数据"><a href="#7-场景举例—Context传递元数据" class="headerlink" title="7. 场景举例—Context传递元数据"></a>7. 场景举例—Context传递元数据</h2><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+ 
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"context"</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"time"</span>
+<span class="token punctuation">)</span>
+ 
+<span class="token keyword">var</span> key <span class="token builtin">string</span> <span class="token operator">=</span> <span class="token string">"name"</span>
+ 
+<span class="token keyword">func</span> <span class="token function">run</span><span class="token punctuation">(</span>ctx context<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">select</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token operator">&lt;-</span>ctx<span class="token punctuation">.</span><span class="token function">Done</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"任务%v结束退出\n"</span><span class="token punctuation">,</span> ctx<span class="token punctuation">.</span><span class="token function">Value</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"任务%v正在运行中\n"</span><span class="token punctuation">,</span> ctx<span class="token punctuation">.</span><span class="token function">Value</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//管理启动的协程</span>
+    ctx<span class="token punctuation">,</span> cancel <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">WithCancel</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment">// 给ctx绑定键值，传递给goroutine</span>
+    valuectx <span class="token operator">:=</span> context<span class="token punctuation">.</span><span class="token function">WithValue</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token string">"【监控1】"</span><span class="token punctuation">)</span>
+    <span class="token comment">// 开启goroutine，传入ctx</span>
+    <span class="token keyword">go</span> <span class="token function">run</span><span class="token punctuation">(</span>valuectx<span class="token punctuation">)</span>
+    <span class="token comment">// 运行一段时间后停止</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"停止任务"</span><span class="token punctuation">)</span>
+    <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 使用context的cancel函数停止goroutine</span>
+    <span class="token comment">// 为了检测监控过是否停止，如果没有监控输出，表示停止</span>
+    time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>运行结果：</strong><br><img src="/upload/2022/05/image-1651908878817.png" alt="image-1651908878817"></p>
+<h2 id="8-context总结"><a href="#8-context总结" class="headerlink" title="8. context总结"></a>8. context总结</h2><blockquote>
+<ol>
+<li>不要把 Context 放在结构体中，要以参数的方式传递</li>
+<li>以 Context 作为参数的函数方法，应该把 Context 作为第一个参数，放在第一位</li>
+<li>给一个函数方法传递 Context 的时候，不要传递 nil，如果不知道传递什么，就使用 context.TODO</li>
+<li>Context 的 Value 相关方法应该传递必须的数据，不要什么数据都使用这个传递</li>
+<li>Context 是线程安全的，可以放心的在多个 goroutine 中传递</li>
+</ol>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/golang/" rel="tag"># golang</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/07/go%E4%B8%ADnew%E5%92%8Cmake%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="prev" title="go 中 new和make的区别">
+                  <i class="fa fa-chevron-left"></i> go 中 new和make的区别
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/07/channel%E7%9A%84%E6%AD%BB%E9%94%81%E5%92%8Cpanic%E6%80%BB%E7%BB%93/" rel="next" title="channel的死锁和panic总结">
+                  channel的死锁和panic总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CarrotVegeta</span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="/js/canvas-nest.js"></script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
