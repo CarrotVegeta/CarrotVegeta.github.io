@@ -1,13 +1,14 @@
 ---
 title: golang 换行读写
-date: 2022-03-02 16:19:40.729
-updated: 2022-03-02 16:19:40.729
 url: /archives/golanghuan-xing-du-xie
 description: golang换行读写示例代码
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: f906baad
+date: 2022-03-02 16:19:40
+updated: 2022-03-02 16:19:40
 ---
 
 ```go

@@ -1,12 +1,13 @@
 ---
 title: nginx 配置多个域名对应不同端口
-date: 2022-03-11 11:03:57.304
-updated: 2022-03-11 11:25:17.058
 url: /archives/nginxpei-zhi-duo-ge-yu-ming-dui-ying-bu-tong-duan-kou
-categories: 
-- nginx
-tags: 
-- nginx
+categories:
+  - nginx
+tags:
+  - nginx
+abbrlink: 121f24e9
+date: 2022-03-11 11:03:57
+updated: 2022-03-11 11:25:17
 ---
 
 # nginx 多个域名不同端口

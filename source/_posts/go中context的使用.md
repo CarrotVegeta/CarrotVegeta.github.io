@@ -1,13 +1,14 @@
 ---
 title: go 中context的使用
-date: 2022-05-07 15:28:52.002
-updated: 2022-05-07 15:38:13.718
 url: /archives/go中context的使用
-description: 
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 38c2d99
+date: 2022-05-07 15:28:52
+updated: 2022-05-07 15:38:13
+description:
 ---
 
 # go中context的使用

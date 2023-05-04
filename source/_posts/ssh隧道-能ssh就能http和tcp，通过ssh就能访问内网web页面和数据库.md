@@ -1,12 +1,14 @@
 ---
 title: ssh隧道-能ssh就能http和tcp，通过ssh就能访问内网web页面和数据库
-date: 2022-03-29 14:11:22.835
-updated: 2022-03-29 14:14:25.245
-url: /archives/ssh-sui-dao---neng-ssh-jiu-neng-http-he-tcp-tong-guo-ssh-jiu-neng-fang-wen-nei-wang-web-ye-mian-he-shu-ju-ku
-categories: 
-- ssh
-tags: 
-- ssh
+url: >-
+  /archives/ssh-sui-dao---neng-ssh-jiu-neng-http-he-tcp-tong-guo-ssh-jiu-neng-fang-wen-nei-wang-web-ye-mian-he-shu-ju-ku
+categories:
+  - ssh
+tags:
+  - ssh
+abbrlink: ff48a6a3
+date: 2022-03-29 14:11:22
+updated: 2022-03-29 14:14:25
 ---
 
 出于安全考虑，一般云主机都只能通过堡垒机两级ssh才能连通，即先ssh堡垒机，再ssh连到内网目标云主机上执行命令。

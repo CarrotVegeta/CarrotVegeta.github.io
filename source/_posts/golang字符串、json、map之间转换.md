@@ -1,14 +1,15 @@
 ---
 title: golang 字符串、json、map之间转换
-date: 2022-02-16 15:59:20.154
-updated: 2022-02-16 16:08:13.914
 url: /archives/golangzi-fu-chuan-jsonmap-zhi-jian-zhuan-huan
-categories: 
-- golang
-tags: 
-- 字符串
-- json
-- map
+categories:
+  - golang
+tags:
+  - 字符串
+  - json
+  - map
+abbrlink: 9fdcaa40
+date: 2022-02-16 15:59:20
+updated: 2022-02-16 16:08:13
 ---
 
 # golang 字符串、json、map之间的转换

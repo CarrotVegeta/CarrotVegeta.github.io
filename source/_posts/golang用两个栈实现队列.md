@@ -1,13 +1,14 @@
 ---
 title: golang 用两个栈实现队列
-date: 2022-03-15 11:09:43.187
-updated: 2022-03-15 11:09:43.187
 url: /archives/golangyong-liang-ge-zhan-shi-xian-dui-lie
 description: golang用栈实现队列代码
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 26cc78f7
+date: 2022-03-15 11:09:43
+updated: 2022-03-15 11:09:43
 ---
 
 ```go

@@ -1,14 +1,15 @@
 ---
 title: MongoDB 备份(mongodump)与恢复(mongorestore)
-date: 2022-02-16 15:55:26.458
-updated: 2022-02-16 15:55:26.458
 url: /archives/mongodbbei-fen-mongodump-yu-hui-fu-mongorestore
 description: MongoDB命令行备份数据以及恢复数据
-categories: 
-- mongodb
-tags: 
-- 备份
-- 恢复
+categories:
+  - mongodb
+tags:
+  - 备份
+  - 恢复
+abbrlink: fd031881
+date: 2022-02-16 15:55:26
+updated: 2022-02-16 15:55:26
 ---
 
 # MongoDB 备份(mongodump)与恢复(mongorestore)

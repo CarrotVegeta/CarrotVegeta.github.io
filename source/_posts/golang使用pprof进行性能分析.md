@@ -1,13 +1,14 @@
 ---
 title: golang 使用pprof 进行性能分析
-date: 2022-02-16 15:58:29.707
-updated: 2022-02-16 15:58:29.707
 url: /archives/golangshi-yong-pprofjin-xing-xing-neng-fen-xi
-categories: 
-- golang
-tags: 
-- pprof
-- golang
+categories:
+  - golang
+tags:
+  - pprof
+  - golang
+abbrlink: afd7e5bb
+date: 2022-02-16 15:58:29
+updated: 2022-02-16 15:58:29
 ---
 
 # golang 性能分析

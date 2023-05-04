@@ -1,13 +1,12 @@
+---
 title: golang私有仓库配置
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 3098b0d8
 date: 2022-08-23 15:19:20
 updated: 2022-08-23 15:19:20
-categories:
-
-- golang 
-
-tags:
-
-- golang
 ---
 golang设置
 ```golang

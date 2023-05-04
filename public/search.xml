@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>GPG入门教程</title>
+    <url>/post/961344b2.html</url>
+    <content><![CDATA[<p>原文链接：<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html">http://www.ruanyifeng.com/blog/2013/07/gpg.html</a></p>
+]]></content>
+      <categories>
+        <category>开发者手册</category>
+      </categories>
+      <tags>
+        <tag>gpg</tag>
+        <tag>rsa</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>golang 统计代码行数</title>
-    <url>/2022/08/31/2022-08-31-golang-%E7%BB%9F%E8%AE%A1%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/</url>
+    <url>/post/ea2c7bad.html</url>
     <content><![CDATA[<h1 id="golang-统计代码行数"><a href="#golang-统计代码行数" class="headerlink" title="golang 统计代码行数"></a>golang 统计代码行数</h1><h2 id="使用gocloc工具进行统计"><a href="#使用gocloc工具进行统计" class="headerlink" title="使用gocloc工具进行统计"></a>使用gocloc工具进行统计</h2><p>获取gocloc工具：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go get -u github.com/hhatto/gocloc/cmd/gocloc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>使用gocloc命令 gocloc[目录路径或文件路径] 进行统计</p>
@@ -21,21 +34,8 @@
       </tags>
   </entry>
   <entry>
-    <title>GPG入门教程</title>
-    <url>/2022/03/01/GPG%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p>原文链接：<a href="http://www.ruanyifeng.com/blog/2013/07/gpg.html">http://www.ruanyifeng.com/blog/2013/07/gpg.html</a></p>
-]]></content>
-      <categories>
-        <category>开发者手册</category>
-      </categories>
-      <tags>
-        <tag>gpg</tag>
-        <tag>rsa</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MongoDB 备份(mongodump)与恢复(mongorestore)</title>
-    <url>/2022/02/16/MongoDB%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
+    <url>/post/fd031881.html</url>
     <content><![CDATA[<h1 id="MongoDB-备份-mongodump-与恢复-mongorestore"><a href="#MongoDB-备份-mongodump-与恢复-mongorestore" class="headerlink" title="MongoDB 备份(mongodump)与恢复(mongorestore)"></a>MongoDB 备份(mongodump)与恢复(mongorestore)</h1><hr>
 <h2 id="MongoDB数据备份"><a href="#MongoDB数据备份" class="headerlink" title="MongoDB数据备份"></a>MongoDB数据备份</h2><p>在Mongodb中我们使用mongodump命令来备份MongoDB数据。该命令可以导出所有数据到指定目录中。</p>
 <p>mongodump命令可以通过参数指定导出的数据量级转存的服务器。</p>
@@ -119,8 +119,110 @@
       </tags>
   </entry>
   <entry>
+    <title>channel的死锁和panic总结</title>
+    <url>/post/2d9efd01.html</url>
+    <content><![CDATA[<h1 id="channel的死锁和panic总结"><a href="#channel的死锁和panic总结" class="headerlink" title="channel的死锁和panic总结"></a>channel的死锁和panic总结</h1><h2 id="1-channel的容量为0时"><a href="#1-channel的容量为0时" class="headerlink" title="1.channel的容量为0时"></a>1.channel的容量为0时</h2><h3 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+     <span class="token comment">//一直接收不到消息发生阻塞，死锁</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token comment">//发送消息的时候无人接收</span>
+	c <span class="token operator">&lt;-</span> <span class="token number">1</span>
+    <span class="token comment">//接收消息 的时候无人发送 死锁</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这是因为channel size为0，之前把1传进c中，但是没有接收方，等到&lt;-c时，已经接收不到数据传入channel，所以死锁</p>
+<h3 id="第三种情况"><a href="#第三种情况" class="headerlink" title="第三种情况"></a>第三种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   <span class="token comment">//没有初始化</span>
+	<span class="token keyword">var</span> ch <span class="token keyword">chan</span> <span class="token builtin">int</span>
+	<span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		ch <span class="token operator">&lt;-</span> <span class="token number">1</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>ch<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="第四种情况"><a href="#第四种情况" class="headerlink" title="第四种情况"></a>第四种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">
+<span class="token keyword">func</span> <span class="token function">demo5</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token comment">//定义类型</span>
+    c <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment">//初始化</span>
+    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+            c <span class="token operator">&lt;-</span> i <span class="token comment">//传入channel数据</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span>  v <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">&#123;</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果是死锁，应该将数据传进channel后，并没有关闭channel，for循环接收channel一直在监听，死锁</p>
+<p>数据传进channel后，输入方主动关闭channel</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo5</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span>
+    c <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+            c <span class="token operator">&lt;-</span> i
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token comment">//或者defer close(c)</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span>  v <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">&#123;</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="当channel-关闭且缓冲区为0时"><a href="#当channel-关闭且缓冲区为0时" class="headerlink" title="当channel 关闭且缓冲区为0时"></a>当channel 关闭且缓冲区为0时</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//输出为0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="关闭未初始化的channel，会panic"><a href="#关闭未初始化的channel，会panic" class="headerlink" title="关闭未初始化的channel，会panic"></a>关闭未初始化的channel，会panic</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span>
+    <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> ch <span class="token keyword">chan</span> <span class="token builtin">int</span>
+    <span class="token comment">//func1</span>
+    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ch <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        ch <span class="token operator">&lt;-</span> <span class="token number">1</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//func2</span>
+    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span>ch <span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
+        <span class="token operator">&lt;-</span>ch
+    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span>ch<span class="token punctuation">)</span>
+    c <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Tick</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> <span class="token keyword">range</span> c <span class="token punctuation">&#123;</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"#goroutines: %d\n"</span><span class="token punctuation">,</span> runtime<span class="token punctuation">.</span><span class="token function">NumGoroutine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//一段时间后输出结果为#goroutines: 2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果中的goroutines分别为fun2 和 main函数，因为fun2没有初始化ch 所以会一直阻塞（func1中的初始化只在其所在的闭包函数中有效)</p>
+<h3 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h3><ol>
+<li>channel关闭后，再向channel中写入数据会panic</li>
+<li>channel关闭后，再次关闭channel，会panic</li>
+<li>关闭未初始化的channel，会panic</li>
+<li>channel关闭后，可以继续从channel中接收数据</li>
+<li>当channel 关闭且缓冲区为0时，继续从channel接收数据会接收到一个channel定义类型的零值</li>
+<li>channel先进先出</li>
+</ol>
+<p>作者：coldwarm7<br>链接：<a href="https://www.jianshu.com/p/f25cdd72efce">https://www.jianshu.com/p/f25cdd72efce</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>clickhouse安装使用笔记</title>
-    <url>/2022/12/14/clickhouse%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/</url>
+    <url>/post/bca9151e.html</url>
     <content><![CDATA[<h1 id="clickhouse"><a href="#clickhouse" class="headerlink" title="clickhouse"></a>clickhouse</h1><h2 id="clickhouse入门"><a href="#clickhouse入门" class="headerlink" title="clickhouse入门"></a>clickhouse入门</h2><p>clickhouse 的特点：</p>
 <ul>
 <li><p>列式存储</p>
@@ -244,116 +346,32 @@ show tables<span class="token punctuation">;</span>
       </tags>
   </entry>
   <entry>
-    <title>clickhouse数组函数操作</title>
-    <url>/2023/04/24/clickhouse%E6%95%B0%E7%BB%84%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<p>原文地址：<a href="https://www.cnblogs.com/traditional/p/15226704.html">点击跳转</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>channel的死锁和panic总结</title>
-    <url>/2022/05/07/channel%E7%9A%84%E6%AD%BB%E9%94%81%E5%92%8Cpanic%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="channel的死锁和panic总结"><a href="#channel的死锁和panic总结" class="headerlink" title="channel的死锁和panic总结"></a>channel的死锁和panic总结</h1><h2 id="1-channel的容量为0时"><a href="#1-channel的容量为0时" class="headerlink" title="1.channel的容量为0时"></a>1.channel的容量为0时</h2><h3 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
-     <span class="token comment">//一直接收不到消息发生阻塞，死锁</span>
-	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token comment">//发送消息的时候无人接收</span>
-	c <span class="token operator">&lt;-</span> <span class="token number">1</span>
-    <span class="token comment">//接收消息 的时候无人发送 死锁</span>
-	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>这是因为channel size为0，之前把1传进c中，但是没有接收方，等到&lt;-c时，已经接收不到数据传入channel，所以死锁</p>
-<h3 id="第三种情况"><a href="#第三种情况" class="headerlink" title="第三种情况"></a>第三种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-   <span class="token comment">//没有初始化</span>
-	<span class="token keyword">var</span> ch <span class="token keyword">chan</span> <span class="token builtin">int</span>
-	<span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		ch <span class="token operator">&lt;-</span> <span class="token number">1</span>
-	<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>ch<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="第四种情况"><a href="#第四种情况" class="headerlink" title="第四种情况"></a>第四种情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">
-<span class="token keyword">func</span> <span class="token function">demo5</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token comment">//定义类型</span>
-    c <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment">//初始化</span>
-    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
-            c <span class="token operator">&lt;-</span> i <span class="token comment">//传入channel数据</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span>  v <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">&#123;</span>
-        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果是死锁，应该将数据传进channel后，并没有关闭channel，for循环接收channel一直在监听，死锁</p>
-<p>数据传进channel后，输入方主动关闭channel</p>
-<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo5</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span>
-    c <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span> <span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
-            c <span class="token operator">&lt;-</span> i
-        <span class="token punctuation">&#125;</span>
-        <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token comment">//或者defer close(c)</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span>  v <span class="token operator">:=</span> <span class="token keyword">range</span> c<span class="token punctuation">&#123;</span>
-        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="当channel-关闭且缓冲区为0时"><a href="#当channel-关闭且缓冲区为0时" class="headerlink" title="当channel 关闭且缓冲区为0时"></a>当channel 关闭且缓冲区为0时</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    c <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
-    <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token operator">&lt;-</span>c<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">//输出为0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="关闭未初始化的channel，会panic"><a href="#关闭未初始化的channel，会panic" class="headerlink" title="关闭未初始化的channel，会panic"></a>关闭未初始化的channel，会panic</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">demo6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> c <span class="token keyword">chan</span> <span class="token builtin">int</span>
-    <span class="token function">close</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> ch <span class="token keyword">chan</span> <span class="token builtin">int</span>
-    <span class="token comment">//func1</span>
-    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        ch <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
-        ch <span class="token operator">&lt;-</span> <span class="token number">1</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token comment">//func2</span>
-    <span class="token keyword">go</span> <span class="token keyword">func</span><span class="token punctuation">(</span>ch <span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        time<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
-        <span class="token operator">&lt;-</span>ch
-    <span class="token punctuation">&#125;</span><span class="token punctuation">(</span>ch<span class="token punctuation">)</span>
-    c <span class="token operator">:=</span> time<span class="token punctuation">.</span><span class="token function">Tick</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">*</span> time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span>
-    <span class="token keyword">for</span> <span class="token keyword">range</span> c <span class="token punctuation">&#123;</span>
-        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"#goroutines: %d\n"</span><span class="token punctuation">,</span> runtime<span class="token punctuation">.</span><span class="token function">NumGoroutine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">//一段时间后输出结果为#goroutines: 2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果中的goroutines分别为fun2 和 main函数，因为fun2没有初始化ch 所以会一直阻塞（func1中的初始化只在其所在的闭包函数中有效)</p>
-<h3 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h3><ol>
-<li>channel关闭后，再向channel中写入数据会panic</li>
-<li>channel关闭后，再次关闭channel，会panic</li>
-<li>关闭未初始化的channel，会panic</li>
-<li>channel关闭后，可以继续从channel中接收数据</li>
-<li>当channel 关闭且缓冲区为0时，继续从channel接收数据会接收到一个channel定义类型的零值</li>
-<li>channel先进先出</li>
-</ol>
-<p>作者：coldwarm7<br>链接：<a href="https://www.jianshu.com/p/f25cdd72efce">https://www.jianshu.com/p/f25cdd72efce</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+    <title>clickhouse常用高阶函数操作</title>
+    <url>/post/clickhouse%E5%B8%B8%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C.html</url>
+    <content><![CDATA[<p>原文地址<a href="https://www.cnblogs.com/weijiqian/p/14852999.html">点击跳转</a></p>
 ]]></content>
       <categories>
-        <category>golang</category>
+        <category>clickhouse</category>
       </categories>
       <tags>
-        <tag>golang</tag>
+        <tag>clickhouse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>clickhouse数组函数操作</title>
+    <url>/post/6fa57dd2.html</url>
+    <content><![CDATA[<p>原文地址：<a href="https://www.cnblogs.com/traditional/p/15226704.html">点击跳转</a></p>
+]]></content>
+      <categories>
+        <category>clickhouse</category>
+      </categories>
+      <tags>
+        <tag>clickhouse</tag>
       </tags>
   </entry>
   <entry>
     <title>docker-compose 执行模板文件构建镜像</title>
-    <url>/2022/02/15/docker-compose%E6%89%A7%E8%A1%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F/</url>
+    <url>/post/88a0a7e9.html</url>
     <content><![CDATA[<h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>执行模板文件构建镜像</p>
 <pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker-compose -f docker-compose.build.yml build --no-cache<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 ]]></content>
@@ -365,42 +383,8 @@ show tables<span class="token punctuation">;</span>
       </tags>
   </entry>
   <entry>
-    <title>docker 拉取指定平台架构的镜像</title>
-    <url>/2022/02/16/docker%E6%8B%89%E5%8F%96%E6%8C%87%E5%AE%9A%E5%B9%B3%E5%8F%B0%E6%9E%B6%E6%9E%84%E7%9A%84%E9%95%9C%E5%83%8F/</url>
-    <content><![CDATA[<h1 id="docker-拉取指定平台架构的镜像"><a href="#docker-拉取指定平台架构的镜像" class="headerlink" title="docker 拉取指定平台架构的镜像"></a>docker 拉取指定平台架构的镜像</h1><p>有时候我们需要拉取指定平台架构的镜像但是我们又没有对应架构的服务器和硬件的时候：<br>比如我们需要拉取一个arm64的node镜像，首先进入docker hub 搜索node镜像<br><img src="/upload/2022/03/image-f8364fe234a64afe9a6c1d20ee65a75e.png" alt="image.png"><br>复制digest<br><img src="/upload/2022/03/image-38e509972a8f4187982b3a5922ff0072.png" alt="image.png"><br>拉取对应版本和对应架构的镜像</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> pull nginx:latest@sha256:3df2ee4220cd7ce126d98cad124c93ed81ea58ee050400ec3c3bca3b553d5448<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在DOCKERFILE文件里面</p>
-<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker"><span class="token instruction"><span class="token keyword">FROM</span> nginx:latest@sha256:3df2ee4220cd7ce126d98cad124c93ed81ea58ee050400ec3c3bca3b553d5448</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>成功拉取</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 报错refusing to merge unrelated histories，强制提交</title>
-    <url>/2022/02/16/git%20%E6%8A%A5%E9%94%99refusing%20to%20merge%20unrelated%20histories%EF%BC%8C%E5%BC%BA%E5%88%B6%E6%8F%90%E4%BA%A4/</url>
-    <content><![CDATA[<p>拉取代码或者推送代码报错</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">refusing to merge unrelated histories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>解决：<br>方法一: 允许不相关历史提交，并强制合并</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> pull origin master --allow-unrelated-histories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>方法二： 强制提交</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> push --force origin master<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker 保存镜像到本地和加载镜像</title>
-    <url>/2022/03/30/docker%E4%BF%9D%E5%AD%98%E9%95%9C%E5%83%8F%E5%88%B0%E6%9C%AC%E5%9C%B0%E5%92%8C%E5%8A%A0%E8%BD%BD%E9%95%9C%E5%83%8F/</url>
+    <url>/post/a1015970.html</url>
     <content><![CDATA[<h1 id="docker-保存镜像到本地和加载镜像"><a href="#docker-保存镜像到本地和加载镜像" class="headerlink" title="docker 保存镜像到本地和加载镜像"></a>docker 保存镜像到本地和加载镜像</h1><h2 id="导出docker镜像，到linux本地"><a href="#导出docker镜像，到linux本地" class="headerlink" title="导出docker镜像，到linux本地"></a>导出docker镜像，到linux本地</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> save -o   指定地址和文件名   镜像名 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
@@ -417,8 +401,88 @@ show tables<span class="token punctuation">;</span>
       </tags>
   </entry>
   <entry>
+    <title>docker 拉取指定平台架构的镜像</title>
+    <url>/post/bd1646ec.html</url>
+    <content><![CDATA[<h1 id="docker-拉取指定平台架构的镜像"><a href="#docker-拉取指定平台架构的镜像" class="headerlink" title="docker 拉取指定平台架构的镜像"></a>docker 拉取指定平台架构的镜像</h1><p>有时候我们需要拉取指定平台架构的镜像但是我们又没有对应架构的服务器和硬件的时候：<br>比如我们需要拉取一个arm64的node镜像，首先进入docker hub 搜索node镜像<br><img src="/upload/2022/03/image-f8364fe234a64afe9a6c1d20ee65a75e.png" alt="image.png"><br>复制digest<br><img src="/upload/2022/03/image-38e509972a8f4187982b3a5922ff0072.png" alt="image.png"><br>拉取对应版本和对应架构的镜像</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> pull nginx:latest@sha256:3df2ee4220cd7ce126d98cad124c93ed81ea58ee050400ec3c3bca3b553d5448<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在DOCKERFILE文件里面</p>
+<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker"><span class="token instruction"><span class="token keyword">FROM</span> nginx:latest@sha256:3df2ee4220cd7ce126d98cad124c93ed81ea58ee050400ec3c3bca3b553d5448</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>成功拉取</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git add 暂存</title>
+    <url>/post/e204e3f8.html</url>
+    <content><![CDATA[<h1 id="add命令"><a href="#add命令" class="headerlink" title="add命令"></a>add命令</h1><h2 id="git-add-命令可将该文件添加到暂存区。"><a href="#git-add-命令可将该文件添加到暂存区。" class="headerlink" title="git add 命令可将该文件添加到暂存区。"></a>git add 命令可将该文件添加到暂存区。</h2><p>添加一个或多个文件到暂存区：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>fle1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>添加指定目录到暂存区，包括子目录：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>dir<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>添加当前目录下的所有文件到暂存区：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>add</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 标签</title>
+    <url>/post/9cbf95f7.html</url>
+    <content><![CDATA[<h1 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h1><h2 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -a v1.2.0 -m <span class="token string">"new version"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="显示标签以及备注"><a href="#显示标签以及备注" class="headerlink" title="显示标签以及备注"></a>显示标签以及备注</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -n<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="实现标签以及备注，按照打标签的时间排序"><a href="#实现标签以及备注，按照打标签的时间排序" class="headerlink" title="实现标签以及备注，按照打标签的时间排序"></a>实现标签以及备注，按照打标签的时间排序</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -n --sort<span class="token operator">=</span>taggerdate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>–sort&#x3D;key</p>
+<p>关于key的值可以参考 <a href="https://git-scm.com/docs/git-for-each-ref">https://git-scm.com/docs/git-for-each-ref</a></p>
+<h2 id="同时有时间、tag、备注使用以下命令"><a href="#同时有时间、tag、备注使用以下命令" class="headerlink" title="同时有时间、tag、备注使用以下命令"></a>同时有时间、tag、备注使用以下命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> for-each-ref --sort<span class="token operator">=</span>taggerdate --format <span class="token string">'%(refname:short) %(taggerdate:short) %(subject)'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="对某个版本进行补打标签，commitId-只要填入前7位即可"><a href="#对某个版本进行补打标签，commitId-只要填入前7位即可" class="headerlink" title="对某个版本进行补打标签，commitId 只要填入前7位即可"></a>对某个版本进行补打标签，commitId 只要填入前7位即可</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -a v1.2 423445a<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="删除标签，并不会删除版本，只是删除标签"><a href="#删除标签，并不会删除版本，只是删除标签" class="headerlink" title="删除标签，并不会删除版本，只是删除标签"></a>删除标签，并不会删除版本，只是删除标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -d v1.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="推送标签"><a href="#推送标签" class="headerlink" title="推送标签"></a>推送标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> push origin master --tags<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>tag</tag>
+        <tag>标签</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 报错refusing to merge unrelated histories，强制提交</title>
+    <url>/post/a5058aec.html</url>
+    <content><![CDATA[<p>拉取代码或者推送代码报错</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">refusing to merge unrelated histories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>解决：<br>方法一: 允许不相关历史提交，并强制合并</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> pull origin master --allow-unrelated-histories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>方法二： 强制提交</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> push --force origin master<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git 文件状态 、status</title>
-    <url>/2022/02/16/git%20%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81%20%E3%80%81status/</url>
+    <url>/post/56d54cc1.html</url>
     <content><![CDATA[<h1 id="git-status命令"><a href="#git-status命令" class="headerlink" title="git status命令"></a>git status命令</h1><p>查看文件更改状态</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -457,7 +521,7 @@ show tables<span class="token punctuation">;</span>
   </entry>
   <entry>
     <title>git 查看提交历史记录</title>
-    <url>/2022/02/16/git%20%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/</url>
+    <url>/post/b85e5b1d.html</url>
     <content><![CDATA[<h1 id="查看历史"><a href="#查看历史" class="headerlink" title="查看历史"></a>查看历史</h1><h2 id="查看所有提交历史记录"><a href="#查看所有提交历史记录" class="headerlink" title="查看所有提交历史记录"></a>查看所有提交历史记录</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> log<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>–oneline 查看历史记录简洁版本</p>
@@ -475,7 +539,7 @@ show tables<span class="token punctuation">;</span>
   </entry>
   <entry>
     <title>git 设置ssh 代理</title>
-    <url>/2022/02/16/git%20%E8%AE%BE%E7%BD%AEssh%20%E4%BB%A3%E7%90%86/</url>
+    <url>/post/a8f1a3f0.html</url>
     <content><![CDATA[<p>配置文件，如果不存在则自行创建一个</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> ~<span class="token punctuation">\</span>.ssh<span class="token punctuation">\</span>config<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -506,27 +570,8 @@ Host ssh.github.com
       </tags>
   </entry>
   <entry>
-    <title>git add 暂存</title>
-    <url>/2022/02/16/git%20add%20%E6%9A%82%E5%AD%98/</url>
-    <content><![CDATA[<h1 id="add命令"><a href="#add命令" class="headerlink" title="add命令"></a>add命令</h1><h2 id="git-add-命令可将该文件添加到暂存区。"><a href="#git-add-命令可将该文件添加到暂存区。" class="headerlink" title="git add 命令可将该文件添加到暂存区。"></a>git add 命令可将该文件添加到暂存区。</h2><p>添加一个或多个文件到暂存区：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>fle1<span class="token punctuation">]</span> <span class="token punctuation">[</span>file2<span class="token punctuation">]</span> <span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>添加指定目录到暂存区，包括子目录：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token punctuation">[</span>dir<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>添加当前目录下的所有文件到暂存区：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>add</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 配置http代理</title>
-    <url>/2022/02/16/git%20%E9%85%8D%E7%BD%AEhttp%E4%BB%A3%E7%90%86/</url>
+    <url>/post/34f1116b.html</url>
     <content><![CDATA[<p>设置代理</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --global https.proxy http://127.0.0.1:1080  
 <span class="token function">git</span> config --global https.proxy https://127.0.0.1:1080<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -544,7 +589,7 @@ Host ssh.github.com
   </entry>
   <entry>
     <title>git 配置用户名邮箱</title>
-    <url>/2022/02/16/git%20%E9%85%8D%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E9%82%AE%E7%AE%B1/</url>
+    <url>/post/98c9ab4f.html</url>
     <content><![CDATA[<h2 id="git全局用户名邮箱配置"><a href="#git全局用户名邮箱配置" class="headerlink" title="git全局用户名邮箱配置"></a>git全局用户名邮箱配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --global user.name  <span class="token string">"username"</span>  
 <span class="token function">git</span> config --global user.email  <span class="token string">"email"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
@@ -565,7 +610,7 @@ Host ssh.github.com
   </entry>
   <entry>
     <title>go mod tidy 报错timeout</title>
-    <url>/2022/05/05/go%20mod%20tidy%20%E6%8A%A5%E9%94%99timeout/</url>
+    <url>/post/394fab29.html</url>
     <content><![CDATA[<h1 id="go-mod-tidy-报错timeout"><a href="#go-mod-tidy-报错timeout" class="headerlink" title="go mod tidy 报错timeout"></a>go mod tidy 报错timeout</h1><p>当我们设置了GOPROXY代理之后</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go <span class="token function">env</span> -w <span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.io,direct<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>或者</p>
@@ -587,7 +632,7 @@ github.com/spf13/viper: github.com/spf13/viper@v1.11.0: verifying module: github
   </entry>
   <entry>
     <title>golang AES算法 CBC加密</title>
-    <url>/2022/04/18/golang%20AES%E7%AE%97%E6%B3%95%20CBC%E5%8A%A0%E5%AF%86/</url>
+    <url>/post/3c90a07d.html</url>
     <content><![CDATA[<pre class="line-numbers language-golang" data-language="golang"><code class="language-golang">package aes
 
 import (
@@ -690,7 +735,7 @@ func DecryptByAes(data, key string) ([]byte, error) &#123;
   </entry>
   <entry>
     <title>golang AES算法 ECB模式加密</title>
-    <url>/2022/04/18/golang%20AES%E7%AE%97%E6%B3%95%20ECB%E6%A8%A1%E5%BC%8F%E5%8A%A0%E5%AF%86/</url>
+    <url>/post/d7d262c7.html</url>
     <content><![CDATA[<pre class="line-numbers language-golang" data-language="golang"><code class="language-golang">package aes
 
 import (
@@ -750,35 +795,8 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
       </tags>
   </entry>
   <entry>
-    <title>git 标签</title>
-    <url>/2022/02/16/git%20tag%20%E6%A0%87%E7%AD%BE/</url>
-    <content><![CDATA[<h1 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h1><h2 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -a v1.2.0 -m <span class="token string">"new version"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="显示标签以及备注"><a href="#显示标签以及备注" class="headerlink" title="显示标签以及备注"></a>显示标签以及备注</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -n<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="实现标签以及备注，按照打标签的时间排序"><a href="#实现标签以及备注，按照打标签的时间排序" class="headerlink" title="实现标签以及备注，按照打标签的时间排序"></a>实现标签以及备注，按照打标签的时间排序</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -n --sort<span class="token operator">=</span>taggerdate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>–sort&#x3D;key</p>
-<p>关于key的值可以参考 <a href="https://git-scm.com/docs/git-for-each-ref">https://git-scm.com/docs/git-for-each-ref</a></p>
-<h2 id="同时有时间、tag、备注使用以下命令"><a href="#同时有时间、tag、备注使用以下命令" class="headerlink" title="同时有时间、tag、备注使用以下命令"></a>同时有时间、tag、备注使用以下命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> for-each-ref --sort<span class="token operator">=</span>taggerdate --format <span class="token string">'%(refname:short) %(taggerdate:short) %(subject)'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="对某个版本进行补打标签，commitId-只要填入前7位即可"><a href="#对某个版本进行补打标签，commitId-只要填入前7位即可" class="headerlink" title="对某个版本进行补打标签，commitId 只要填入前7位即可"></a>对某个版本进行补打标签，commitId 只要填入前7位即可</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -a v1.2 423445a<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="删除标签，并不会删除版本，只是删除标签"><a href="#删除标签，并不会删除版本，只是删除标签" class="headerlink" title="删除标签，并不会删除版本，只是删除标签"></a>删除标签，并不会删除版本，只是删除标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> tag -d v1.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="推送标签"><a href="#推送标签" class="headerlink" title="推送标签"></a>推送标签</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> push origin master --tags<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>tag</tag>
-        <tag>标签</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>golang 获取系统相关信息</title>
-    <url>/2022/03/01/golang%20%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF/</url>
+    <url>/post/46454e21.html</url>
     <content><![CDATA[<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
@@ -808,7 +826,7 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
   </entry>
   <entry>
     <title>golang 使用pprof 进行性能分析</title>
-    <url>/2022/02/16/golang%E4%BD%BF%E7%94%A8pprof%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</url>
+    <url>/post/afd7e5bb.html</url>
     <content><![CDATA[<h1 id="golang-性能分析"><a href="#golang-性能分析" class="headerlink" title="golang 性能分析"></a>golang 性能分析</h1><h2 id="性能分析web地址"><a href="#性能分析web地址" class="headerlink" title="性能分析web地址"></a>性能分析web地址</h2><p><a href="http://ip:port/debug/pprof/">http://ip:port/debug/pprof/</a></p>
 <span id="more"></span>
 <h2 id="go-tool-命令"><a href="#go-tool-命令" class="headerlink" title="go tool 命令"></a>go tool 命令</h2><p>top 排序</p>
@@ -837,7 +855,7 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
   </entry>
   <entry>
     <title>golang 字符串、json、map之间转换</title>
-    <url>/2022/02/16/golang%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81json%E3%80%81map%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/</url>
+    <url>/post/9fdcaa40.html</url>
     <content><![CDATA[<h1 id="golang-字符串、json、map之间的转换"><a href="#golang-字符串、json、map之间的转换" class="headerlink" title="golang 字符串、json、map之间的转换"></a>golang 字符串、json、map之间的转换</h1><span id="more"></span>
 <pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
 <span class="token string">"encoding/json"</span>
@@ -928,7 +946,7 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
   </entry>
   <entry>
     <title>golang cmd命令执行</title>
-    <url>/2022/03/01/golang%E6%89%A7%E8%A1%8Ccmd%E5%91%BD%E4%BB%A4/</url>
+    <url>/post/48709b05.html</url>
     <content><![CDATA[<p>1.golang cmd命令执行<br>（１．）执行命令并获取执行结果</p>
 <pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 
@@ -979,72 +997,8 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
       </tags>
   </entry>
   <entry>
-    <title>golang 操作redis</title>
-    <url>/2022/02/21/golang%E6%93%8D%E4%BD%9Credis/</url>
-    <content><![CDATA[<p>golang操作redis库</p>
-<span id="more"></span>
-<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
-
-<span class="token keyword">import</span> <span class="token punctuation">(</span>
-	<span class="token string">"context"</span>
-	<span class="token string">"fmt"</span>
-	<span class="token string">"github.com/go-redis/redis/v8"</span>
-	<span class="token string">"log"</span>
-<span class="token punctuation">)</span>
-
-<span class="token keyword">var</span> rdb <span class="token operator">*</span>redis<span class="token punctuation">.</span>Client
-
-<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token function">OpenDB</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-	<span class="token function">SetKeyValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">)</span>
-	v1<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span>
-	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
-		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#125;</span>
-	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"v1:"</span><span class="token punctuation">,</span> v1<span class="token punctuation">)</span>
-
-	v2<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span>
-	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
-		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#125;</span>
-	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"v2:"</span><span class="token punctuation">,</span> v2<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">func</span> <span class="token function">OpenDB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	rdb <span class="token operator">=</span> redis<span class="token punctuation">.</span><span class="token function">NewClient</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>Options<span class="token punctuation">&#123;</span>
-		Addr<span class="token punctuation">:</span>     <span class="token string">"localhost:6379"</span><span class="token punctuation">,</span>
-		Password<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment">// no password set</span>
-		DB<span class="token punctuation">:</span>       <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment">// use default DB</span>
-	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">func</span> <span class="token function">SetKeyValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
-		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">func</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span>key <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	v<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
-		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
-		<span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">,</span> err
-	<span class="token punctuation">&#125;</span>
-	<span class="token keyword">return</span> v<span class="token punctuation">,</span> <span class="token boolean">nil</span>
-<span class="token punctuation">&#125;</span>
-
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>golang</category>
-      </categories>
-      <tags>
-        <tag>golang</tag>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>golang 换行读写</title>
-    <url>/2022/03/02/golang%E6%8D%A2%E8%A1%8C%E8%AF%BB%E5%86%99/</url>
+    <url>/post/f906baad.html</url>
     <content><![CDATA[<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> utils
 
 <span class="token keyword">import</span> <span class="token punctuation">(</span>
@@ -1112,8 +1066,72 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
       </tags>
   </entry>
   <entry>
+    <title>golang 操作redis</title>
+    <url>/post/7e553d6e.html</url>
+    <content><![CDATA[<p>golang操作redis库</p>
+<span id="more"></span>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"context"</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"github.com/go-redis/redis/v8"</span>
+	<span class="token string">"log"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> rdb <span class="token operator">*</span>redis<span class="token punctuation">.</span>Client
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token function">OpenDB</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token function">SetKeyValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">)</span>
+	v1<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"v1:"</span><span class="token punctuation">,</span> v1<span class="token punctuation">)</span>
+
+	v2<span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span><span class="token function">Error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"v2:"</span><span class="token punctuation">,</span> v2<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">func</span> <span class="token function">OpenDB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	rdb <span class="token operator">=</span> redis<span class="token punctuation">.</span><span class="token function">NewClient</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>Options<span class="token punctuation">&#123;</span>
+		Addr<span class="token punctuation">:</span>     <span class="token string">"localhost:6379"</span><span class="token punctuation">,</span>
+		Password<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment">// no password set</span>
+		DB<span class="token punctuation">:</span>       <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment">// use default DB</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">func</span> <span class="token function">SetKeyValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> value<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">func</span> <span class="token function">GetValueByValue</span><span class="token punctuation">(</span>key <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	v<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">,</span> err
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> v<span class="token punctuation">,</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>golang 用两个栈实现队列</title>
-    <url>/2022/03/15/golang%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/</url>
+    <url>/post/26cc78f7.html</url>
     <content><![CDATA[<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">package</span> main
 
 
@@ -1175,23 +1193,8 @@ func PKCS5UnPadding(origData []byte) []byte &#123;
       </tags>
   </entry>
   <entry>
-    <title>golang私有仓库配置</title>
-    <url>/2022/08/23/golang%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>golang设置</p>
-<pre class="line-numbers language-golang" data-language="golang"><code class="language-golang">go env -w GOPRIVATE&#x3D;&quot;gitlab.xxx.com&#x2F;xxxx&#x2F;*&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>git设置</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --global url.<span class="token string">"git@gitlab.xxxx.com:"</span>.insteadOf <span class="token string">"http://gitlab.xxxx.com/"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>golang</category>
-      </categories>
-      <tags>
-        <tag>golang</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>golang远程调试</title>
-    <url>/2023/04/11/golang%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/</url>
+    <url>/post/6a5d58b5.html</url>
     <content><![CDATA[<h1 id="golang远程调试"><a href="#golang远程调试" class="headerlink" title="golang远程调试"></a>golang远程调试</h1><h2 id="第一步：安装go"><a href="#第一步：安装go" class="headerlink" title="第一步：安装go"></a>第一步：安装go</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#下载go</span>
 <span class="token function">wget</span> https://dl.google.com/go/go1.20.3.linux-amd64.tar.gz
 <span class="token comment">#解压</span>
@@ -1226,11 +1229,23 @@ go build -gcflags<span class="token operator">=</span><span class="token string"
 
 <h3 id="3、dlv直接运行"><a href="#3、dlv直接运行" class="headerlink" title="3、dlv直接运行"></a>3、dlv直接运行</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dlv --listen<span class="token operator">=</span>:2345 --headless<span class="token operator">=</span>true --api-version<span class="token operator">=</span><span class="token number">2</span> --accept-multiclient <span class="token builtin class-name">exec</span> ./main<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-
-
-
 <h2 id="goland-远程调试"><a href="#goland-远程调试" class="headerlink" title="goland 远程调试"></a>goland 远程调试</h2><p>打开goland配置 选择go remote 填写服务器地址和端口</p>
-<p><img src="/../pictures%5C1681230165886.jpg"></p>
+<p><img src="http://img.carrotvegeta.icu/blog/2023-4-04a0eafad3b9f3430e02fd50cf4afb26.jpg" alt="http://img.carrotvegeta.icu/blog/2023-4-04a0eafad3b9f3430e02fd50cf4afb26.jpg"></p>
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>golang私有仓库配置</title>
+    <url>/post/3098b0d8.html</url>
+    <content><![CDATA[<p>golang设置</p>
+<pre class="line-numbers language-golang" data-language="golang"><code class="language-golang">go env -w GOPRIVATE&#x3D;&quot;gitlab.xxx.com&#x2F;xxxx&#x2F;*&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>git设置</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --global url.<span class="token string">"git@gitlab.xxxx.com:"</span>.insteadOf <span class="token string">"http://gitlab.xxxx.com/"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 ]]></content>
       <categories>
         <category>golang</category>
@@ -1241,7 +1256,7 @@ go build -gcflags<span class="token operator">=</span><span class="token string"
   </entry>
   <entry>
     <title>go 中context的使用</title>
-    <url>/2022/05/07/go%E4%B8%ADcontext%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <url>/post/38c2d99.html</url>
     <content><![CDATA[<h1 id="go中context的使用"><a href="#go中context的使用" class="headerlink" title="go中context的使用"></a>go中context的使用</h1><p>版权声明：本文为CSDN博主「Word哥」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/finghting321/article/details/106012673/">https://blog.csdn.net/finghting321/article/details/106012673/</a><br>————————————————</p>
 <h2 id="1-为什么需要context"><a href="#1-为什么需要context" class="headerlink" title="1. 为什么需要context"></a>1. 为什么需要context</h2><p>在并发程序中，由于超时、取消操作或者一些异常情况，往往需要进行抢占操作或者中断后续操作。</p>
 <p>举个例子：在 Go http包的Server中，每一个请求在都有一个对应的 goroutine 去处理。请求处理函数通常会启动额外的 goroutine 用来访问后端服务，比如数据库和RPC服务，用来处理一个请求的 goroutine 通常需要访问一些与请求特定的数据，比如终端用户的身份认证信息、验证相关的token、请求的截止时间。 当一个请求被取消或超时时，所有用来处理该请求的 goroutine 都应该迅速中断退出，然后系统才能释放这些 goroutine 占用的资源。context深入理解可参考</p>
@@ -1485,7 +1500,7 @@ go build -gcflags<span class="token operator">=</span><span class="token string"
   </entry>
   <entry>
     <title>go 中 new和make的区别</title>
-    <url>/2022/05/07/go%E4%B8%ADnew%E5%92%8Cmake%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <url>/post/34454ed8.html</url>
     <content><![CDATA[<h1 id="go中new和make的区别"><a href="#go中new和make的区别" class="headerlink" title="go中new和make的区别"></a>go中new和make的区别</h1><p>new和make是用于go中分配内存的，简单来说，new只分配内存，make用于初始化slice、map以及channel。</p>
 <p>Go语言中的 new 和 make 主要区别如下：<br>make 只能用来分配及初始化类型为 slice、map、chan 的数据。new 可以分配任意类型的数据；<br>new 分配返回的是指针，即类型 *Type。make 返回引用，即 Type；<br>new 分配的空间被清零。make 分配空间后，会进行初始化；</p>
 ]]></content>
@@ -1498,7 +1513,7 @@ go build -gcflags<span class="token operator">=</span><span class="token string"
   </entry>
   <entry>
     <title>linux 命令行配置代理</title>
-    <url>/2022/02/16/linux%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <url>/post/10aadca5.html</url>
     <content><![CDATA[<h1 id="命令行配置代理"><a href="#命令行配置代理" class="headerlink" title="命令行配置代理"></a>命令行配置代理</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">export</span> <span class="token assign-left variable">http_proxy</span><span class="token operator">=</span>http://127.0.0.1:1087
 
 <span class="token builtin class-name">export</span> <span class="token assign-left variable">https_proxy</span><span class="token operator">=</span><span class="token variable">$http_proxy</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -1537,8 +1552,62 @@ go build -gcflags<span class="token operator">=</span><span class="token string"
       </tags>
   </entry>
   <entry>
+    <title>linux查看进程</title>
+    <url>/post/56d93994.html</url>
+    <content><![CDATA[<h1 id="linux查看进程"><a href="#linux查看进程" class="headerlink" title="linux查看进程"></a>linux查看进程</h1><p>ps [-e -f]</p>
+<ul>
+<li>选项：-e 显示全部进程</li>
+<li>选项：-f 以完全格式化的形式展示信息</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -ef<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="http://img.carrotvegeta.icu/blog/2023-4-4ff8e84007b23ff6f5a8e52f059f10c5.png" alt="http://img.carrotvegeta.icu/blog/2023-4-4ff8e84007b23ff6f5a8e52f059f10c5.png"></p>
+<ul>
+<li>UID:进程所属的用户ID</li>
+<li>PID:进程的进程号ID</li>
+<li>PPID:进程所属的父ID（启动此进程的其他进程）</li>
+<li>C:此进程的CPU占用率（百分比）</li>
+<li>STIME:进程的启动时间</li>
+<li>TTY:启动此进程的终端序号，如果显示？ 则表示不是由终端启动</li>
+<li>TIME:进程所占用的cpu时间</li>
+<li>CMD:启动此进程的命令或启动路径</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux端口号查看</title>
+    <url>/post/adb7f6d5.html</url>
+    <content><![CDATA[<h1 id="linux端口号查看"><a href="#linux端口号查看" class="headerlink" title="linux端口号查看"></a>linux端口号查看</h1><ol>
+<li><p>nmap用于查看服务器对外开放的端口</p>
+<p>安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum -y <span class="token function">install</span> nmap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看本机对外端口</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token number">127.0</span>.0.1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>netstat命令 用于查看本机端口号占用</p>
+<p>安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum -y <span class="token function">install</span> net-tools<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看端口占用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -anp<span class="token operator">|</span><span class="token function">grep</span> <span class="token number">3306</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql 命令行备份数据</title>
-    <url>/2022/02/16/mysql%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE/</url>
+    <url>/post/d01613b0.html</url>
     <content><![CDATA[<p><a href="https://www.cnblogs.com/gcixx/">桄椿</a></p>
 <h2 id="mysql命令行备份方法"><a href="#mysql命令行备份方法" class="headerlink" title="mysql命令行备份方法"></a><a href="https://www.cnblogs.com/gcixx/p/11145473.html">mysql命令行备份方法</a></h2><p>一、mysql备份</p>
 <p>1、备份命令</p>
@@ -1631,7 +1700,7 @@ mysql -h *.*.*.* -u username -p passward  -p 3310 &lt; test.sql<span aria-hidden
   </entry>
   <entry>
     <title>nginx 启动停止命令</title>
-    <url>/2022/04/06/nginx%20%E5%90%AF%E5%8A%A8%E5%81%9C%E6%AD%A2%E5%91%BD%E4%BB%A4/</url>
+    <url>/post/8a666a62.html</url>
     <content><![CDATA[<h1 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h1><p>启动服务：systemctl start nginx</p>
 <p>关闭服务： systemctl stop nginx</p>
 <p>重载配置：systemctl reload nginx</p>
@@ -1646,7 +1715,7 @@ mysql -h *.*.*.* -u username -p passward  -p 3310 &lt; test.sql<span aria-hidden
   </entry>
   <entry>
     <title>nginx 基本命令</title>
-    <url>/2022/03/11/nginx%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</url>
+    <url>/post/6426f6ef.html</url>
     <content><![CDATA[<h1 id="nginx基本命令"><a href="#nginx基本命令" class="headerlink" title="nginx基本命令"></a>nginx基本命令</h1><p>1、启动：<br>使用默认nginx.conf来启动</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">start nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>如果要指定配置文件来启动则使用以下命令即可：</p>
@@ -1683,7 +1752,7 @@ mysql -h *.*.*.* -u username -p passward  -p 3310 &lt; test.sql<span aria-hidden
   </entry>
   <entry>
     <title>nginx 配置多个域名对应不同端口</title>
-    <url>/2022/03/11/nginx%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E5%9F%9F%E5%90%8D%E5%AF%B9%E5%BA%94%E4%B8%8D%E5%90%8C%E7%AB%AF%E5%8F%A3/</url>
+    <url>/post/121f24e9.html</url>
     <content><![CDATA[<h1 id="nginx-多个域名不同端口"><a href="#nginx-多个域名不同端口" class="headerlink" title="nginx 多个域名不同端口"></a>nginx 多个域名不同端口</h1><h2 id="首先准备三个域名和端口"><a href="#首先准备三个域名和端口" class="headerlink" title="首先准备三个域名和端口"></a>首先准备三个域名和端口</h2><ul>
 <li>carrotvegeta.icu  80</li>
 <li>blog.carrotvegeta.icu 8090</li>
@@ -1797,20 +1866,8 @@ server<span class="token punctuation">&#123;</span>
       </tags>
   </entry>
   <entry>
-    <title>不需要运行进入docker 容器</title>
-    <url>/2022/03/31/%E4%B8%8D%E9%9C%80%E8%A6%81%E8%BF%90%E8%A1%8C%E9%87%91%E8%9E%8Ddocker%E5%AE%B9%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="不需要运行进入docker-容器"><a href="#不需要运行进入docker-容器" class="headerlink" title="不需要运行进入docker 容器"></a>不需要运行进入docker 容器</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run -it 镜像id /bin/bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ssh隧道-能ssh就能http和tcp，通过ssh就能访问内网web页面和数据库</title>
-    <url>/2022/03/29/ssh%E9%9A%A7%E9%81%93-%E8%83%BDssh%E5%B0%B1%E8%83%BDhttp%E5%92%8Ctcp%EF%BC%8C%E9%80%9A%E8%BF%87ssh%E5%B0%B1%E8%83%BD%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91web%E9%A1%B5%E9%9D%A2%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <url>/post/ff48a6a3.html</url>
     <content><![CDATA[<p>出于安全考虑，一般云主机都只能通过堡垒机两级ssh才能连通，即先ssh堡垒机，再ssh连到内网目标云主机上执行命令。<br>(堡垒机俗称跳板机，一般只开放一个ssh端口。有些堡垒机没有公网IP，必须先登录vpn能才能连)</p>
 <p>怎么传文件呢？<br>先传到跳板机再传到目标机？传2次？太麻烦，浪费时间还浪费磁盘空间。<br>有人说配置config，可以直接ssh目标机，也可以直接scp文件到目标机。没错是这样（文中有配置示例）。</p>
 <p>那云主机上有web页面能直接访问么？</p>
@@ -1856,8 +1913,20 @@ Host sub2020
       </tags>
   </entry>
   <entry>
+    <title>不需要运行进入docker 容器</title>
+    <url>/post/fe28043d.html</url>
+    <content><![CDATA[<h1 id="不需要运行进入docker-容器"><a href="#不需要运行进入docker-容器" class="headerlink" title="不需要运行进入docker 容器"></a>不需要运行进入docker 容器</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run -it 镜像id /bin/bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用rsync命令</title>
-    <url>/2022/02/16/%E4%BD%BF%E7%94%A8rsync%E5%91%BD%E4%BB%A4/</url>
+    <url>/post/645ded65.html</url>
     <content><![CDATA[<h1 id="本地上传至远程"><a href="#本地上传至远程" class="headerlink" title="本地上传至远程"></a>本地上传至远程</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">rsync</span> -av localPath username@ip:remotepath<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
@@ -1878,19 +1947,8 @@ Host sub2020
       </tags>
   </entry>
   <entry>
-    <title>单纯启动docker容器不启动服务</title>
-    <url>/2022/02/16/%E5%8D%95%E7%BA%AF%E5%90%AF%E5%8A%A8docker%E5%AE%B9%E5%99%A8%E4%B8%8D%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker run -itd --name spp 镜像名:标签 bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用scp命令传输文件到服务器</title>
-    <url>/2022/02/15/%E4%BD%BF%E7%94%A8scp%E5%91%BD%E4%BB%A4%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <url>/post/6fb886e2.html</url>
     <content><![CDATA[<h1 id="使用scp命令"><a href="#使用scp命令" class="headerlink" title="使用scp命令"></a>使用scp命令</h1><p>上传本地文件到服务器：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">scp</span> /path/filename username@servername:/path/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -1911,8 +1969,19 @@ Host sub2020
       </tags>
   </entry>
   <entry>
+    <title>单纯启动docker容器不启动服务</title>
+    <url>/post/c24217a1.html</url>
+    <content><![CDATA[<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker run -itd --name spp 镜像名:标签 bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何使用高阶函数编程提升代码的简洁性</title>
-    <url>/2022/02/24/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E7%BC%96%E7%A8%8B%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E7%9A%84%E7%AE%80%E6%B4%81%E6%80%A7/</url>
+    <url>/post/54f8f4a7.html</url>
     <content><![CDATA[<p>摘要<br>函数是 Go 语言的一等公民，本文采用一种高阶函数的方式，抽象了使用 gorm 查询 DB 的查询条件，将多个表的各种复杂的组合查询抽象成了一个统一的方法和一个配置类，提升了代码的简洁和优雅，同时可以提升开发人员的效率。</p>
 <span id="more"></span>
 <p>背景<br>有一张 DB 表，业务上需要按照这个表里的不同字段做筛选查询，这是一个非常普遍的需求，我相信这种需求对于每个做业务开发的人都是绕不开的。比如我们有一张存储用户信息的表，简化之后的表结构如下：</p>
@@ -2114,7 +2183,7 @@ infos <span class="token operator">:=</span> <span class="token function">GetUse
   </entry>
   <entry>
     <title>获取项目中 golang 代码行数</title>
-    <url>/2022/03/10/%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE%E4%B8%AD%20golang%20%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/</url>
+    <url>/post/7182060a.html</url>
     <content><![CDATA[<p>获取包</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">go get -u github.com/hhatto/gocloc/cmd/gocloc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>在项目下执行命令</p>

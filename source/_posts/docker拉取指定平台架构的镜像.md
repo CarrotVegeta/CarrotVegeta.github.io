@@ -1,12 +1,13 @@
 ---
 title: docker 拉取指定平台架构的镜像
-date: 2022-02-16 15:34:57.622
-updated: 2022-03-31 20:07:53.104
 url: /archives/dockerla-qu-zhi-ding-ping-tai-de-jing-xiang
-categories: 
-- docker
-tags: 
-- docker
+categories:
+  - docker
+tags:
+  - docker
+abbrlink: bd1646ec
+date: 2022-02-16 15:34:57
+updated: 2022-03-31 20:07:53
 ---
 
 # docker 拉取指定平台架构的镜像

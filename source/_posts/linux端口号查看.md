@@ -1,12 +1,12 @@
 ---
-abbrlink: ''
+abbrlink: adb7f6d5
 categories:
-- - linux
+  - - linux
 date: '2023-04-25 23:08:04'
 tags:
-- linux
+  - linux
 title: linux端口号查看
-updated: Tue, 25 Apr 2023 15:19:57 GMT
+updated: 'Tue, 25 Apr 2023 15:19:57 GMT'
 ---
 # linux端口号查看
 

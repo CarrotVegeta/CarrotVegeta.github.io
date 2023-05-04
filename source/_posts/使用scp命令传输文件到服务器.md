@@ -1,13 +1,14 @@
 ---
 title: 使用scp命令传输文件到服务器
-date: 2022-02-15 15:34:58.699
-updated: 2022-02-16 15:42:24.554
 url: /archives/shi-yong-scp-ming-ling-chuan-shu-wen-jian-dao-fu-wu-qi
-categories: 
-- linux
-tags: 
-- scp
-- 文件
+categories:
+  - linux
+tags:
+  - scp
+  - 文件
+abbrlink: 6fb886e2
+date: 2022-02-15 15:34:58
+updated: 2022-02-16 15:42:24
 ---
 
 # 使用scp命令
