@@ -1,13 +1,14 @@
 ---
 title: channel的死锁和panic总结
-date: 2022-05-07 16:30:27.778
-updated: 2022-05-07 17:17:18.964
 url: /archives/channel的死锁和panic总结
 description: channel的死锁和panic总结
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 2d9efd01
+date: 2022-05-07 16:30:27
+updated: 2022-05-07 17:17:18
 ---
 
 # channel的死锁和panic总结

@@ -1,15 +1,16 @@
 ---
 title: golang AES算法 CBC加密
-date: 2022-04-18 18:18:51.28
-updated: 2022-04-18 18:18:51.28
 url: /archives/golangaes-suan-fa-cbc-jia-mi
 description: golang代码实现AES算法 CBC加密
-categories: 
-- golang
-tags: 
-- golang
-- aes
-- cbc
+categories:
+  - golang
+tags:
+  - golang
+  - aes
+  - cbc
+abbrlink: 3c90a07d
+date: 2022-04-18 18:18:51
+updated: 2022-04-18 18:18:51
 ---
 
 ```golang

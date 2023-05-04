@@ -1,12 +1,13 @@
 ---
 title: nginx 启动停止命令
-date: 2022-04-06 22:31:35.314
-updated: 2022-04-06 22:32:09.108
 url: /archives/nginxqi-dong-ting-zhi-ming-ling
-categories: 
-- nginx
-tags: 
-- nginx
+categories:
+  - nginx
+tags:
+  - nginx
+abbrlink: 8a666a62
+date: 2022-04-06 22:31:35
+updated: 2022-04-06 22:32:09
 ---
 
 # 服务管理

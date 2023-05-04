@@ -1,12 +1,13 @@
 ---
 title: 单纯启动docker容器不启动服务
-date: 2022-02-16 15:35:37.616
-updated: 2022-02-16 15:35:37.616
 url: /archives/dan-chun-qi-dong-docker-rong-qi-bu-qi-dong-fu-wu
-categories: 
-- docker
-tags: 
-- docker
+categories:
+  - docker
+tags:
+  - docker
+abbrlink: c24217a1
+date: 2022-02-16 15:35:37
+updated: 2022-02-16 15:35:37
 ---
 
 ```docker

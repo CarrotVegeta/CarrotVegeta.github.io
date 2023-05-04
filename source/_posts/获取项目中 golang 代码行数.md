@@ -1,12 +1,13 @@
 ---
 title: 获取项目中 golang 代码行数
-date: 2022-03-10 16:53:10.671
-updated: 2022-03-10 16:53:10.671
 url: /archives/huo-qu-xiang-mu-zhong-golangdai-ma-xing-shu
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 7182060a
+date: 2022-03-10 16:53:10
+updated: 2022-03-10 16:53:10
 ---
 
 获取包

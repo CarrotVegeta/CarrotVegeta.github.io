@@ -1,13 +1,14 @@
 ---
 title: git 配置http代理
-date: 2022-02-16 15:40:39.152
-updated: 2022-02-16 15:41:34.617
 url: /archives/gitpei-zhi-http-dai-li
-categories: 
-- git
-tags: 
-- git
-- 代理
+categories:
+  - git
+tags:
+  - git
+  - 代理
+abbrlink: 34f1116b
+date: 2022-02-16 15:40:39
+updated: 2022-02-16 15:41:34
 ---
 
 设置代理

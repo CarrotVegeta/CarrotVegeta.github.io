@@ -1,15 +1,16 @@
 ---
 title: golang AES算法 ECB模式加密
-date: 2022-04-18 18:18:03.812
-updated: 2022-04-18 18:18:03.812
 url: /archives/golangaes-suan-fa-ecb-mo-shi-jia-mi
 description: golang代码实现AES算法ECB模式加密
-categories: 
-- golang
-tags: 
-- golang
-- aes
-- ecb
+categories:
+  - golang
+tags:
+  - golang
+  - aes
+  - ecb
+abbrlink: d7d262c7
+date: 2022-04-18 18:18:03
+updated: 2022-04-18 18:18:03
 ---
 
 ```golang

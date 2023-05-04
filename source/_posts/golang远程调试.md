@@ -1,15 +1,17 @@
 ---
-abbrlink: ''
+abbrlink: 6a5d58b5
 categories:
-- golang
+  - golang
 date: '2023-04-11 23:44:01'
-excerpt: golang远程调试 第一步：安装go ```shell 下载go wget https://dl.google.com/go/go1.20.3.linux-amd64.tar.gz
-  解压 tar -xzf go1.20.3.linux-amd64.tar.gz 移动解压的目录到/usr/local/src目录下 mv go /usr/local/src
+excerpt: >-
+  golang远程调试 第一步：安装go ```shell 下载go wget
+  https://dl.google.com/go/go1.20.3.linux-amd64.tar.gz 解压 tar -xzf
+  go1.20.3.linux-amd64.tar.gz 移动解压的目录到/usr/local/src目录下 mv go /usr/local/src
   配置环境变量 export PATH=$P...
 tags:
-- golang
+  - golang
 title: golang远程调试
-updated: Tue, 25 Apr 2023 16:05:08 GMT
+updated: 'Tue, 25 Apr 2023 16:05:08 GMT'
 url: /archives/golang-remote-debug
 ---
 # golang远程调试

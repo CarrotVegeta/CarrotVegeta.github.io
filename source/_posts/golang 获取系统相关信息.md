@@ -1,12 +1,13 @@
 ---
 title: golang 获取系统相关信息
-date: 2022-03-01 10:21:26.058
-updated: 2022-03-01 10:21:26.058
 url: /archives/golanghuo-qu-xi-tong-xiang-guan-xin-xi
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: '46454e21'
+date: 2022-03-01 10:21:26
+updated: 2022-03-01 10:21:26
 ---
 
 ```go

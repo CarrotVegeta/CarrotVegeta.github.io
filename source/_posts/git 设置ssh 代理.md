@@ -1,13 +1,14 @@
 ---
 title: git 设置ssh 代理
-date: 2022-02-16 15:41:21.313
-updated: 2022-02-16 15:41:44.62
 url: /archives/gitshe-zhi-sshdai-li
-categories: 
-- git
-tags: 
-- git
-- 代理
+categories:
+  - git
+tags:
+  - git
+  - 代理
+abbrlink: a8f1a3f0
+date: 2022-02-16 15:41:21
+updated: 2022-02-16 15:41:44
 ---
 
 配置文件，如果不存在则自行创建一个

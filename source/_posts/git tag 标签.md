@@ -1,14 +1,15 @@
 ---
 title: git 标签
-date: 2022-02-16 15:43:25.337
-updated: 2022-02-16 15:44:17.602
 url: /archives/gitbiao-qian
-categories: 
-- git
-tags: 
-- git
-- tag
-- 标签
+categories:
+  - git
+tags:
+  - git
+  - tag
+  - 标签
+abbrlink: 9cbf95f7
+date: 2022-02-16 15:43:25
+updated: 2022-02-16 15:44:17
 ---
 
 # git tag

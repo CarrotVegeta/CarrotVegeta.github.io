@@ -1,14 +1,15 @@
 ---
 title: git 文件状态 、status
-date: 2022-02-16 15:44:04.606
-updated: 2022-02-16 15:51:13.889
 url: /archives/gitwen-jian-zhuang-tai-status
-categories: 
-- git
-tags: 
-- git
-- 文件
-- status
+categories:
+  - git
+tags:
+  - git
+  - 文件
+  - status
+abbrlink: 56d54cc1
+date: 2022-02-16 15:44:04
+updated: 2022-02-16 15:51:13
 ---
 
 # git status命令

@@ -1,13 +1,14 @@
 ---
 title: 使用rsync命令
-date: 2022-02-16 15:54:19.532
-updated: 2022-02-16 15:54:19.532
 url: /archives/shi-yong-rsync-ming-ling
-categories: 
-- linux
-tags: 
-- linux
-- rsync
+categories:
+  - linux
+tags:
+  - linux
+  - rsync
+abbrlink: 645ded65
+date: 2022-02-16 15:54:19
+updated: 2022-02-16 15:54:19
 ---
 
 # 本地上传至远程

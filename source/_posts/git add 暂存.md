@@ -1,13 +1,14 @@
 ---
 title: git add 暂存
-date: 2022-02-16 15:50:57.451
-updated: 2022-02-16 15:50:57.451
 url: /archives/gitaddzan-cun
-categories: 
-- git
-tags: 
-- git
-- add
+categories:
+  - git
+tags:
+  - git
+  - add
+abbrlink: e204e3f8
+date: 2022-02-16 15:50:57
+updated: 2022-02-16 15:50:57
 ---
 
 # add命令

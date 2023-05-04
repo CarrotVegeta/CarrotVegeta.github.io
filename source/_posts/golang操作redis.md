@@ -1,13 +1,14 @@
 ---
 title: golang 操作redis
-date: 2022-02-21 12:29:11.229
-updated: 2022-02-21 12:54:07.966
 url: /archives/golangcao-zuo-redis
-categories: 
-- golang
-tags: 
-- golang
-- redis
+categories:
+  - golang
+tags:
+  - golang
+  - redis
+abbrlink: 7e553d6e
+date: 2022-02-21 12:29:11
+updated: 2022-02-21 12:54:07
 ---
 golang操作redis库
 <!--more-->

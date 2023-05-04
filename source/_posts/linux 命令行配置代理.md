@@ -1,14 +1,15 @@
 ---
 title: linux 命令行配置代理
-date: 2022-02-16 15:52:21.277
-updated: 2022-02-16 15:52:21.277
 url: /archives/linuxming-ling-xing-pei-zhi-dai-li
-categories: 
-- linux
-tags: 
-- 代理
-- linux
-- bash
+categories:
+  - linux
+tags:
+  - 代理
+  - linux
+  - bash
+abbrlink: 10aadca5
+date: 2022-02-16 15:52:21
+updated: 2022-02-16 15:52:21
 ---
 
 # 命令行配置代理

@@ -1,15 +1,16 @@
 ---
 title: mysql 命令行备份数据
-date: 2022-02-16 15:56:50.464
-updated: 2022-02-16 15:57:00.45
 url: /archives/mysqlming-ling-xing-bei-fen-shu-ju
 description: mysql通过命令行进行备份数据库、表以及恢复数据
-categories: 
-- mysql
-tags: 
-- 备份
-- 恢复
-- mysql
+categories:
+  - mysql
+tags:
+  - 备份
+  - 恢复
+  - mysql
+abbrlink: d01613b0
+date: 2022-02-16 15:56:50
+updated: 2022-02-16 15:57:00
 ---
 
 [桄椿](https://www.cnblogs.com/gcixx/)

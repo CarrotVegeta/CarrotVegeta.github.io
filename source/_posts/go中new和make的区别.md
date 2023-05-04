@@ -1,12 +1,13 @@
 ---
 title: go 中 new和make的区别
-date: 2022-05-07 14:16:01.018
-updated: 2022-05-07 14:16:01.018
 url: /archives/go-zhong-new-he-make-de-qu-bie
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 34454ed8
+date: 2022-05-07 14:16:01
+updated: 2022-05-07 14:16:01
 ---
 
 # go中new和make的区别

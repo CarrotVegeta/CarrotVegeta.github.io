@@ -1,12 +1,13 @@
 ---
 title: git 报错refusing to merge unrelated histories，强制提交
-date: 2022-02-16 15:37:51.669
-updated: 2022-02-16 15:37:51.669
 url: /archives/gitbao-cuo-refusingtomergeunrelatedhistories-qiang-zhi-ti-jiao
-categories: 
-- git
-tags: 
-- git
+categories:
+  - git
+tags:
+  - git
+abbrlink: a5058aec
+date: 2022-02-16 15:37:51
+updated: 2022-02-16 15:37:51
 ---
 
 拉取代码或者推送代码报错

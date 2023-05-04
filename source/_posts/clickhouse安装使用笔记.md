@@ -1,12 +1,13 @@
 ---
 title: clickhouse安装使用笔记
-date: 2022-12-14 20:17:27.778
-updated: 2022-12-14 20:17:27.778
 description: clickhouse 笔记
-categories: 
-- clickhouse
-tags: 
-- clickhouse
+categories:
+  - clickhouse
+tags:
+  - clickhouse
+abbrlink: bca9151e
+date: 2022-12-14 20:17:27
+updated: 2022-12-14 20:17:27
 ---
 # clickhouse
 

@@ -1,14 +1,15 @@
 ---
 title: golang cmd命令执行
-date: 2022-03-01 10:12:39.003
-updated: 2022-03-01 10:12:39.003
 url: /archives/golangcmd-ming-ling-zhi-xing
 description: golang执行cmd命令.demo
-categories: 
-- golang
-tags: 
-- golang
-- cmd
+categories:
+  - golang
+tags:
+  - golang
+  - cmd
+abbrlink: 48709b05
+date: 2022-03-01 10:12:39
+updated: 2022-03-01 10:12:39
 ---
 
 

@@ -1,13 +1,14 @@
 ---
 title: nginx 基本命令
-date: 2022-03-11 11:59:33.747
-updated: 2022-03-11 12:03:36.998
 url: /archives/nginxji-ben-ming-ling
 description: 简介介绍nginx基本命令
-categories: 
-- nginx
-tags: 
-- nginx
+categories:
+  - nginx
+tags:
+  - nginx
+abbrlink: 6426f6ef
+date: 2022-03-11 11:59:33
+updated: 2022-03-11 12:03:36
 ---
 
 # nginx基本命令

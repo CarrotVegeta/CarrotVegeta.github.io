@@ -1,12 +1,13 @@
 ---
 title: git 配置用户名邮箱
-date: 2022-02-16 15:36:50.932
-updated: 2022-02-16 15:36:50.932
 url: /archives/gitpei-zhi-yong-hu-ming-you-xiang
-categories: 
-- git
-tags: 
-- git
+categories:
+  - git
+tags:
+  - git
+abbrlink: 98c9ab4f
+date: 2022-02-16 15:36:50
+updated: 2022-02-16 15:36:50
 ---
 
 ## git全局用户名邮箱配置

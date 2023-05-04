@@ -1,12 +1,13 @@
 ---
 title: go mod tidy 报错timeout
-date: 2022-05-05 16:33:04.997
-updated: 2022-05-05 16:39:43.939
 url: /archives/gomodtidy报错timeout
-categories: 
-- golang
-tags: 
-- golang
+categories:
+  - golang
+tags:
+  - golang
+abbrlink: 394fab29
+date: 2022-05-05 16:33:04
+updated: 2022-05-05 16:39:43
 ---
 
 # go mod tidy 报错timeout
