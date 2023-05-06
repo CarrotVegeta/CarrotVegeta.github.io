@@ -7,7 +7,7 @@ excerpt: golang单元测试 golang单元测试文件以_test.go 结尾 go/ �
 tags:
 - golang
 title: golang单元测试
-updated: 2023-5-7T0:37:25.577+8:0
+updated: 2023-5-7T0:51:19.852+8:0
 ---
 # golang单元测试
 
@@ -27,7 +27,7 @@ go/
 func TestUser_FindByName(t *testing.T) {
 	//initDB()
 	//u := User{}
-	fmt.Println("sdkfjsdkfjds")
+	t.Logf("sdkfjsdkfjds")
 	//u.FindByName(DB, "sdk").Find()
 }
 func TestUser_CalculateAge(t *testing.T) {
@@ -40,11 +40,10 @@ func TestUser_CalculateAge(t *testing.T) {
 	}
 	err := DB.Model(&User{}).Select("id,name,CalculateAge() as age_now").Find(&users).Error
 	if err != nil {
-		log.Fatalf(err.Error())
-		return
+		t.Fatalf(err.Error())
 	}
-	log.Println(users)
 }
+
 
 ```
 
