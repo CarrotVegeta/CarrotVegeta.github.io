@@ -8,7 +8,7 @@ tags:
 - golang
 - template
 title: golang模板语法
-updated: 2023-5-9T21:20:21.832+8:0
+updated: 2023-5-9T21:27:28.666+8:0
 ---
 # golang模板语法
 
@@ -36,9 +36,6 @@ func main() {
 	user := UserInfo{
 		Name: "li lei",
 		Age:  18}
-	funcs := template.FuncMap{
-		"userinfo": GetUserInfo(),
-	}
 	tmpl, err := template.New("log").Parse(a)
 	if err != nil {
 		log.Fatalf(err.Error())
@@ -67,6 +64,9 @@ func main() {
 		return
 	}
 	//注册函数进去
+	funcs := template.FuncMap{
+		"userinfo": GetUserInfo(),
+	}
 	a = ", class is {{userinfo.Class.Name}}"
 	tmpl, err = tmpl.Funcs(funcs).Parse(a)
 	if err != nil {
@@ -91,6 +91,7 @@ func GetUserInfo() func() *UserInfo {
 		}
 	}
 }
+
 ```
 
 输出：
