@@ -3,18 +3,18 @@ abbrlink: ''
 categories:
 - - nginx
 date: '2023-08-23T23:59:30.646913+08:00'
-excerpt: 编译nginx 下载源码在本地编译 wget http://nginx.org/download/nginx-1.25.2.tar.gz tar -zxvf nginx-1.24.0.tar.gz a...
+excerpt: 编译nginx 下载源码在本地编译 wget http://nginx.org/download/nginx-1.24.0.tar.gz tar -zxvf nginx-1.24.0.tar.gz a...
 tags:
 - nginx
 title: 编译nginx源码并制作镜像
-updated: 2023-8-24T0:5:36.694+8:0
+updated: 2023-8-24T0:6:56.875+8:0
 ---
 ## 编译nginx
 
 下载源码在本地编译
 
 ```bash
-wget http://nginx.org/download/nginx-1.25.2.tar.gz
+wget http://nginx.org/download/nginx-1.24.0.tar.gz
 tar -zxvf nginx-1.24.0.tar.gz
 apt-get update
 apt-get install -y build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev
@@ -24,7 +24,9 @@ make
 make install
 ```
 
-制作镜像
+## 制作镜像
+
+编写Dockerfile文件
 
 ```bash
 FROM ubuntu:latest
@@ -41,4 +43,10 @@ EXPOSE 80
 ENTRYPOINT ["nginx","-g","daemon off;"]
 CMD ["-c","/etc/nginx/nginx.conf"]
 
+```
+
+制作镜像
+
+```bash
+docker build -t nginx:1.24.0 .
 ```
