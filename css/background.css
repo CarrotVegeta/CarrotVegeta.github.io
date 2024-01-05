@@ -1,0 +1,224 @@
+/* 文章页背景 
+.layout_post>#post {
+    /* 以下代表透明度为0.5 可以自行修改
+    background: rgba(255,255,255,.1)!important;
+    backdrop-filter: blur(10px);
+}
+*/
+/*所有页面实现毛玻璃特效*/
+#aside-content{
+    background: rgba(255,255,255,0);
+    backdrop-filter: blur(10px);
+}
+.layout > div:first-child:not(.recent-posts) {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+}
+
+#recent-posts > .recent-post-item {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+}
+
+/*标题栏*/
+#page-header.nav-visible #nav {
+    background: rgba(255,255,255,0.5);
+    /* backdrop-filter: blur(50px); */
+}
+/*顶栏背景*/
+#page-header.post,#page-header.post-bg:before,#page-header:not(.not-top-img):before{
+    background-color: transparent !important;
+    background-image: unset !important
+}
+
+/*侧边栏美化*/
+#aside-content .card-widget,#aside-content > .card-widget:first-child {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+}
+/*顶栏常驻
+.nav-fixed #nav{
+    transform: translateY(58px)!important;
+    -webkit-transform: translateY(58px)!important;
+    -moz-transform: translateY(58px)!important;
+    -ms-transform: translateY(58px)!important;
+    -o-transform: translateY(58px)!important;
+}
+#nav{
+    transition: none!important;
+    -webkit-transition: none!important;
+    -moz-transition: none!important;
+    -ms-transition: none!important;
+    -o-transition: none!important;
+}
+*/
+
+/*右边按钮美化
+#rightside > div > button {
+    /* background: rgba(255,255,255,0.7); 
+    backdrop-filter: blur(10px);
+}
+#rightside > div > button {
+    background: rgba(255,255,255,.7);
+}
+*/
+/*搜索框美化*/
+.search-dialog {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 0px;
+}
+
+#search-mask {
+    background: rgba(255,255,255,0);
+}
+/*手机端毛玻璃优化*/
+#sidebar #sidebar-menus.open {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+}
+
+#sidebar #menu-mask {
+    background: rgba(255,255,255,0);
+}
+
+#footer {
+    background: transparent;
+
+    /* background-size: 400% 400%;
+    -webkit-animation: Gradient 10s ease infinite;
+    -moz-animation: Gradient 10s ease infinite;
+    animation: Gradient 10s ease infinite;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none; */
+}
+/* 
+#footer:before {
+    /* background-color: rgba(0, 0, 0, 0); 
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+} */
+
+#footer-wrap {
+    color: black;
+    /* background-color: rgba(0, 0, 0, 0); */
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px);
+} 
+
+/*
+#web_bg {
+    /*博客背景渐变 
+    background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+   
+    /*动态渐变
+   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+   background-size: 400% 400%;
+   animation: gradientBG 15s ease infinite;
+   */
+   /*图片渐变
+   background-image: url("https://ae01.alicdn.com/kf/H18a4b998752a4ae68b8e85d432a5aef0l.png"), linear-gradient(60deg, rgba(255, 165, 150, 0.5) 5%, rgba(0, 228, 255, 0.35)), url("http://img.carrotvegeta.icu/blog/ai%E7%BB%98%E7%94%BB%20%E5%8F%A4%E9%A3%8E%20%E9%95%BF%E5%A4%B4%E5%8F%91%E7%99%BD%E8%89%B2%E8%A1%A3%E6%9C%8D%E5%8A%A8%E6%BC%AB%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8_%E5%BD%BC%E5%B2%B8%E5%A3%81%E7%BA%B8.jpg");
+    */
+    /*背景图片设置*/
+    /* 背景图像的地址（url括号里）  
+  background: url();
+  /* 背景图像不重复 
+  background-repeat: no-repeat;
+  /* 背景图像大小 
+  background-size: cover;
+  
+}
+
+/*动态渐变
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+*/
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+#web_bg {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+
+
+#web_bg {
+    background: -webkit-linear-gradient(
+            0deg,
+            rgba(247, 149, 51, 0.1) 0,
+            rgba(243, 112, 85, 0.1) 15%,
+            rgba(239, 78, 123, 0.1) 30%,
+            rgba(161, 102, 171, 0.1) 44%,
+            rgba(80, 115, 184, 0.1) 58%,
+            rgba(16, 152, 173, 0.1) 72%,
+            rgba(7, 179, 155, 0.1) 86%,
+            rgba(109, 186, 130, 0.1) 100%
+    );
+    background: -moz-linear-gradient(
+            0deg,
+            rgba(247, 149, 51, 0.1) 0,
+            rgba(243, 112, 85, 0.1) 15%,
+            rgba(239, 78, 123, 0.1) 30%,
+            rgba(161, 102, 171, 0.1) 44%,
+            rgba(80, 115, 184, 0.1) 58%,
+            rgba(16, 152, 173, 0.1) 72%,
+            rgba(7, 179, 155, 0.1) 86%,
+            rgba(109, 186, 130, 0.1) 100%
+    );
+    background: -o-linear-gradient(
+            0deg,
+            rgba(247, 149, 51, 0.1) 0,
+            rgba(243, 112, 85, 0.1) 15%,
+            rgba(239, 78, 123, 0.1) 30%,
+            rgba(161, 102, 171, 0.1) 44%,
+            rgba(80, 115, 184, 0.1) 58%,
+            rgba(16, 152, 173, 0.1) 72%,
+            rgba(7, 179, 155, 0.1) 86%,
+            rgba(109, 186, 130, 0.1) 100%
+    );
+    background: -ms-linear-gradient(
+            0deg,
+            rgba(247, 149, 51, 0.1) 0,
+            rgba(243, 112, 85, 0.1) 15%,
+            rgba(239, 78, 123, 0.1) 30%,
+            rgba(161, 102, 171, 0.1) 44%,
+            rgba(80, 115, 184, 0.1) 58%,
+            rgba(16, 152, 173, 0.1) 72%,
+            rgba(7, 179, 155, 0.1) 86%,
+            rgba(109, 186, 130, 0.1) 100%
+    );
+    background: linear-gradient(
+            90deg,
+            rgba(247, 149, 51, 0.1) 0,
+            rgba(243, 112, 85, 0.1) 15%,
+            rgba(239, 78, 123, 0.1) 30%,
+            rgba(161, 102, 171, 0.1) 44%,
+            rgba(80, 115, 184, 0.1) 58%,
+            rgba(16, 152, 173, 0.1) 72%,
+            rgba(7, 179, 155, 0.1) 86%,
+            rgba(109, 186, 130, 0.1) 100%
+    );
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CSRF安全漏洞 | 胡萝卜贝吉塔</title><meta name="author" content="CarrotVegeta"><meta name="copyright" content="CarrotVegeta"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CSRF安全漏洞 跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSRF安全漏洞">
+<meta property="og:url" content="http://example.com/post/43961134.html">
+<meta property="og:site_name" content="胡萝卜贝吉塔">
+<meta property="og:description" content="CSRF安全漏洞 跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2024-01-05T14:57:59.050Z">
+<meta property="article:modified_time" content="2024-01-05T15:24:50.130Z">
+<meta property="article:author" content="CarrotVegeta">
+<meta property="article:tag" content="CSRF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/post/43961134.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CSRF安全漏洞',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-05 15:24:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://img.carrotvegeta.icu/blog/ai%E7%BB%98%E7%94%BB%20%E5%8F%A4%E9%A3%8E%20%E9%95%BF%E5%A4%B4%E5%8F%91%E7%99%BD%E8%89%B2%E8%A1%A3%E6%9C%8D%E5%8A%A8%E6%BC%AB%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8_%E5%BD%BC%E5%B2%B8%E5%A3%81%E7%BA%B8.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="胡萝卜贝吉塔"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSRF安全漏洞</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-05T14:57:59.050Z" title="发表于 2024-01-05 14:57:59">2024-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-05T15:24:50.130Z" title="更新于 2024-01-05 15:24:50">2024-01-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="CSRF安全漏洞"><a href="#CSRF安全漏洞" class="headerlink" title="CSRF安全漏洞"></a>CSRF安全漏洞</h1><h2 id="跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请求。以下是有关CSRF攻击的一些基本信息和防范方法"><a href="#跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请求。以下是有关CSRF攻击的一些基本信息和防范方法" class="headerlink" title="跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请求。以下是有关CSRF攻击的一些基本信息和防范方法"></a>跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请求。以下是有关CSRF攻击的一些基本信息和防范方法</h2><h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><ol>
+<li><strong>用户已登录：</strong> 攻击者利用用户已登录到目标网站的事实。</li>
+<li><strong>恶意请求：</strong> 攻击者构造一个包含恶意操作的请求，例如改变用户密码、发起转账等。</li>
+<li><strong>伪装请求：</strong> 攻击者将构造的请求嵌入到欺骗性的页面或社交工程攻击中，引导用户在不知情的情况下执行操作。</li>
+<li><strong>自动执行：</strong> 用户在未察觉的情况下，浏览器会自动发送已登录用户的凭证（cookie等），触发恶意请求。</li>
+</ol>
+<p>假设有一个在线银行网站，用户在登录后可以执行转账操作。以下是一个简化的CSRF攻击的例子：</p>
+<ol>
+<li><p><strong>用户登录银行账户：</strong></p>
+<ul>
+<li>用户A在银行网站登录，服务器会颁发一个包含用户身份验证信息的Cookie。</li>
+</ul>
+</li>
+<li><p><strong>攻击者构造恶意页面：</strong></p>
+<ul>
+<li>攻击者创建了一个恶意网站，并在该网站上放置了一个恶意的HTML表单，其中包含了银行网站的转账请求，但是用户并不知晓。</li>
+</ul>
+ <pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://bank.com/transfer<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>post<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>toAccount<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>attackerAccount<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>amount<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1000000<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!-- CSRF攻击的关键：攻击者欺骗用户在不知情的情况下提交该表单 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>点击这里获取免费游戏<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>用户被欺骗执行操作：</strong></p>
+<ul>
+<li>攻击者通过社交工程或其他手段诱导用户A访问他们的网站，用户A在不知情的情况下点击了表单中的按钮。</li>
+</ul>
+</li>
+<li><p><strong>恶意请求被发送：</strong></p>
+<ul>
+<li>由于用户A已在银行网站登录，浏览器会自动发送包含用户身份验证信息的Cookie的POST请求，执行转账操作。</li>
+</ul>
+</li>
+<li><p><strong>攻击成功：</strong></p>
+<ul>
+<li>用户A的银行账户从银行网站上被悄无声息地转账了一笔金额到攻击者指定的账户。</li>
+</ul>
+</li>
+</ol>
+<p>这个例子展示了CSRF攻击的基本原理，即攻击者利用用户已登录的状态，通过欺骗用户使其执行未经授权的操作。通过实施CSRF令牌等防范措施，可以有效地减轻这类攻击的影响。</p>
+<h3 id="防范方法"><a href="#防范方法" class="headerlink" title="防范方法"></a>防范方法</h3><ol>
+<li><p><strong>同源策略：</strong> 保持网站的同源策略，限制页面只能加载来自相同域的资源，减少恶意站点的能力。<br> 同源策略主要由浏览器通过比较页面的来源（Origin）来判断。具体来说，同源策略检查的字段是页面的来源信息，即包含协议、域名和端口号的组合。</p>
+<p> 在浏览器中，<code>Origin</code>头字段用于表示请求的来源。<code>Origin</code>头的值包含协议、域名和端口号。例如，一个<code>Origin</code>头可能是：</p>
+ <pre class="line-numbers language-code" data-language="code"><code class="language-code">https:&#x2F;&#x2F;www.example.com:443<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 同源策略比较两个页面的<code>Origin</code>头，只有当它们的协议、域名和端口号完全相同时，这两个页面才被认为是同源的。</p>
+<p> 如果页面之间的<code>Origin</code>头不同，浏览器会根据同源策略阻止一些敏感操作，如使用JavaScript在一个页面中访问另一个页面的DOM、Cookie或发起跨域的XMLHttpRequest请求。</p>
+<p> 这种限制有助于减少跨站点攻击，如跨站请求伪造（CSRF）和跨站脚本攻击（XSS），提高了用户的安全性和隐私保护。如果需要实现跨域操作，可以使用CORS（Cross-Origin Resource Sharing）等机制进行授权和访问控制。</p>
+</li>
+<li><p><strong>CSRF令牌：</strong> 在用户与服务器之间引入CSRF令牌，确保每个请求都包含一个仅服务器能够验证的唯一标识符。</p>
+</li>
+<li><p><strong>双重提交Cookie：</strong> 在用户的cookie中设置一个随机的令牌，并将该令牌作为表单字段和cookie的一部分一同提交。</p>
+</li>
+<li><p><strong>Referer检查：</strong> 服务器可以检查请求的Referer头部，确保请求是从合法的网站发起的。</p>
+</li>
+<li><p><strong>自定义Header：</strong> 在请求中使用自定义的HTTP头部，只有合法的请求才会包含这个头部。</p>
+</li>
+<li><p><strong>限制敏感操作：</strong> 敏感操作（如修改密码、转账等）应该要求用户重新验证身份，例如输入密码。</p>
+</li>
+<li><p><strong>使用SameSite Cookie属性：</strong> 将Cookie的SameSite属性设置为Strict或Lax，以限制Cookie的发送，防止跨站请求。</p>
+</li>
+<li><p><strong>定期更改令牌：</strong> 如果令牌长时间有效，攻击者有更多机会截获和滥用。因此，定期更改令牌可以增加安全性。</p>
+</li>
+</ol>
+<p>这些防范方法通常结合使用，以提高对CSRF攻击的抵抗力。网站开发者应当审查其应用程序的安全性，并在可能的情况下实施这些防范措施。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CSRF/">CSRF</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/post/2ce534a5.html" title="golang 查看依赖树"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">golang 查看依赖树</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSRF%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">CSRF安全漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%EF%BC%88CSRF%EF%BC%89%E6%98%AF%E4%B8%80%E7%A7%8D%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%EF%BC%8C%E5%AE%83%E5%85%81%E8%AE%B8%E6%94%BB%E5%87%BB%E8%80%85%E5%88%A9%E7%94%A8%E5%B7%B2%E9%80%9A%E8%BF%87%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E7%9A%84%E7%94%A8%E6%88%B7%E7%9A%84%E6%9D%83%E9%99%90%E6%9D%A5%E6%89%A7%E8%A1%8C%E6%9C%AA%E7%BB%8F%E6%8E%88%E6%9D%83%E7%9A%84%E6%93%8D%E4%BD%9C%E3%80%82%E6%94%BB%E5%87%BB%E8%80%85%E9%80%9A%E8%BF%87%E6%AC%BA%E9%AA%97%E7%94%A8%E6%88%B7%E4%BD%BF%E5%85%B6%E5%9C%A8%E5%8F%97%E4%BF%A1%E4%BB%BB%E7%9A%84%E7%BD%91%E7%AB%99%E4%B8%8A%E6%89%A7%E8%A1%8C%E6%81%B6%E6%84%8F%E6%93%8D%E4%BD%9C%EF%BC%8C%E4%BB%8E%E8%80%8C%E8%A7%A6%E5%8F%91%E5%B7%B2%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E8%AF%B7%E6%B1%82%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E6%9C%89%E5%85%B3CSRF%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%92%8C%E9%98%B2%E8%8C%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">跨站请求伪造（CSRF）是一种网络安全漏洞，它允许攻击者利用已通过身份验证的用户的权限来执行未经授权的操作。攻击者通过欺骗用户使其在受信任的网站上执行恶意操作，从而触发已登录用户的请求。以下是有关CSRF攻击的一些基本信息和防范方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E8%8C%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">防范方法</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/43961134.html" title="CSRF安全漏洞">CSRF安全漏洞</a><time datetime="2024-01-05T14:57:59.050Z" title="发表于 2024-01-05 14:57:59">2024-01-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/2ce534a5.html" title="golang 查看依赖树">golang 查看依赖树</a><time datetime="2023-12-12T09:05:00.214Z" title="发表于 2023-12-12 09:05:00">2023-12-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/linux_%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AF%A6%E8%A7%A3.html" title="linux_目录结构详解">linux_目录结构详解</a><time datetime="2023-09-19T14:35:19.211Z" title="发表于 2023-09-19 14:35:19">2023-09-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/42c17650.html" title="响应头隐藏nginx版本信息">响应头隐藏nginx版本信息</a><time datetime="2023-08-23T16:13:12.339Z" title="发表于 2023-08-23 16:13:12">2023-08-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/11996117.html" title="编译nginx源码并制作镜像">编译nginx源码并制作镜像</a><time datetime="2023-08-23T15:59:30.646Z" title="发表于 2023-08-23 15:59:30">2023-08-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By CarrotVegeta</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,0" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
